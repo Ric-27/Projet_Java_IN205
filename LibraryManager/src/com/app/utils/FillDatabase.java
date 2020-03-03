@@ -1,4 +1,4 @@
-package com.excilys.librarymanager.utils;
+package com.app.utils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.h2.tools.DeleteDbFiles;
 
-import com.excilys.librarymanager.persistence.ConnectionManager;
+import com.app.persistence.ConnectionManager;
 
 public class FillDatabase {
 

@@ -1,4 +1,4 @@
-package com.excilys.librarymanager.persistence;
+package com.app.persistence;
 
 import java.sql.Connection;
 import java.sql.SQLException;

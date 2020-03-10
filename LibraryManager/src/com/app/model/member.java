@@ -21,15 +21,17 @@ public class member {
 	
 	
 	public member() {
-		super();
+		this(0,"","","","","");
 	}
-	public member(String name, String lastname, String address, String aegEmail, String argPhone) {
-		this();
-		this.titre = titre;
-		this.realisateur = realisateur;
+	public member(String name, String lastname, String address, String email, String phone) {
+		this.name = name;
+		this.lastname = lastname;
+		this.address = address;
+		this.email = email;
+		this.phone = phone;
 	}
-	public member(Integer id, String titre, String realisateur) {
-		this(titre, realisateur);
+	public member(Integer id, String name, String lastname, String address, String email, String phone) {
+		this(name,lastname,address,email,phone);
 		this.id = id;
 	}
 	
@@ -39,25 +41,46 @@ public class member {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getTitre() {
-		return titre;
+	public String getName() {
+		return name;
 	}
-	public void setTitre(String titre) {
-		this.titre = titre;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getRealisateur() {
-		return realisateur;
+	public String getLastname() {
+		return lastname;
 	}
-	public void setRealisateur(String realisateur) {
-		this.realisateur = realisateur;
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 	
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + "{" 
 				+ "Id: " + id + ", "
-				+ "titre:" + titre + ", "
-				+ "realisateur: " + realisateur
+				+ "Name:" + name + ", "
+				+ "Lastname: " + lastname
+				+ "Address:" + address + ", "
+				+ "Email:" + email + ", "
+				+ "Phone:" + phone
 				+ "}";
 	}
     

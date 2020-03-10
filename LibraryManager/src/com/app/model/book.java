@@ -52,9 +52,8 @@ public class book {
 		return getClass().getSimpleName() + "{" 
 				+ "Id: " + id + ", "
 				+ "Title:" + title + ", "
-				+ "Author: " + author
+				+ "Author: " + author + ", "
 				+ "ISBN:" + isbn
 				+ "}";
 	}
-    
 }

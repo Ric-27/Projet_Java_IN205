@@ -21,17 +21,18 @@ public class member {
 	
 	
 	public member() {
-		this(0,"","","","","");
+		this(0,"","","","","",Subscription.BASIC);
 	}
-	public member(String name, String lastname, String address, String email, String phone) {
+	public member(String name, String lastname, String address, String email, String phone, Subscription subs) {
 		this.name = name;
 		this.lastname = lastname;
 		this.address = address;
 		this.email = email;
 		this.phone = phone;
+		this.subscription = subs;
 	}
-	public member(Integer id, String name, String lastname, String address, String email, String phone) {
-		this(name,lastname,address,email,phone);
+	public member(Integer id, String name, String lastname, String address, String email, String phone, Subscription subs) {
+		this(name,lastname,address,email,phone,subs);
 		this.id = id;
 	}
 	
@@ -71,6 +72,12 @@ public class member {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	public Subscription getSubscription() {
+		return subscription;
+	}
+	public void setSubscription(Subscription subs) {
+		this.subscription = subs;
+	}
 	
 	@Override
 	public String toString() {
@@ -80,8 +87,8 @@ public class member {
 				+ "Lastname: " + lastname
 				+ "Address:" + address + ", "
 				+ "Email:" + email + ", "
-				+ "Phone:" + phone
+				+ "Phone:" + phone + ", "
+				+ "Subscription:" + subscription
 				+ "}";
-	}
-    
+	}    
 }

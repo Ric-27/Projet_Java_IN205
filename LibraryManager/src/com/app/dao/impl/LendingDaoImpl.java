@@ -1,6 +1,9 @@
 package com.app.dao.impl;
 
+import java.time.LocalDate;
+
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,9 +11,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.app.dao.*;
 import com.app.exception.*;
 import com.app.model.Lending;
+import com.app.persistence.ConnectionManager;
 
 public class LendingDaoImpl implements LendingDao {
     
@@ -32,5 +38,34 @@ public class LendingDaoImpl implements LendingDao {
 	private static final String UPDATE_QUERY = "UPDATE Emprunt SET idMembre=?, idLivre=?,dateEmprunt=?, dateRetour=? WHERE id=?;";
 	private static final String COUNT_QUERY = "SELECT COUNT(*) AS count FROM emprunt WHERE idMembre IN (SELECT id FROM membre) and idLivre IN (SELECT id FROM livre);";
 
+    @Override
+	public void create(int idMembre, int idLivre, LocalDate dateLending) throws DaoException{
+        try (Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
+            ResultSet result = prepareStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
+            {
+                if (result.next()){
 
+                    MemberDao memberDao = MemberDaoImpl.getInstance();
+                    BookDao bookDao = BookDaoImpl.getInstance();
+                    Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
+
+                    System.out.println("CREATE LOAN: " + lending);
+                }
+
+        }catch(SQLException e){
+            throw new DaoException("Probleme lors de la creation de l'emprunt");
+        }
+
+
+    }
+
+    public ResultSet prepareStatementFunction(PreparedStatement preparedStatement, int idMembre, int idLivre, LocalDate lendingDate) throws SQLException{
+        preparedStatement.setInt(1, idMembre);
+        preparedStatement.setInt(2, idLivre);
+        preparedStatement.setDate(3, Date.valueOf(lendingDate));
+        preparedStatement.setDate(4, null);
+        ResultSet res = preparedStatement.getGeneratedKeys();
+        return res;
+    }
 }

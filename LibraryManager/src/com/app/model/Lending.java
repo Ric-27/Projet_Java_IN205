@@ -1,25 +1,25 @@
 package com.app.model;
 
 /**
- * lending
+ * Lending
  */
-public class lending {
+public class Lending {
     private Integer id;
-	private member member;
-    private book book;
+	private Member member;
+    private Book book;
     private java.time.LocalDate lendDate;
     private java.time.LocalDate returnDate;	
 	
-	public lending() {
+	public Lending() {
 		this(0,null,null,null,null);
 	}
-	public lending(member member, book book, java.time.LocalDate lendDate,java.time.LocalDate returnDate) {
+	public Lending(Member member, Book book, java.time.LocalDate lendDate,java.time.LocalDate returnDate) {
 		this.member = member;
 		this.book = book;
         this.lendDate = lendDate;
         this.returnDate = returnDate;
 	}
-	public lending(Integer id, member member, book book, java.time.LocalDate lendDate,java.time.LocalDate returnDate) {
+	public Lending(Integer id, Member member, Book book, java.time.LocalDate lendDate,java.time.LocalDate returnDate) {
 		this(member,book,lendDate, returnDate);
 		this.id = id;
 	}
@@ -30,16 +30,16 @@ public class lending {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public book getBook() {
+	public Book getBook() {
 		return book;
 	}
-	public void setBook(book book) {
+	public void setBook(Book book) {
 		this.book = book;
 	}
-	public member getMember() {
+	public Member getMember() {
 		return member;
 	}
-	public void setMember(member member) {
+	public void setMember(Member member) {
 		this.member = member;
 	}
 	public java.time.LocalDate getLendDate() {

@@ -1,23 +1,23 @@
 package com.app.model;
 
 /**
- * book
+ * Book
  */
-public class book {
+public class Book {
     private Integer id;
 	private String title;
     private String author;
     private String isbn;	
 	
-	public book() {
+	public Book() {
 		this(0,"","","");
 	}
-	public book(String title, String author, String isbn) {
+	public Book(String title, String author, String isbn) {
 		this.title = title;
 		this.author = author;
 		this.isbn = isbn;
 	}
-	public book(Integer id, String title, String author, String isbn) {
+	public Book(Integer id, String title, String author, String isbn) {
 		this(title,author,isbn);
 		this.id = id;
 	}

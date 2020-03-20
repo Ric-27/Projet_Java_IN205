@@ -1,9 +1,9 @@
 package com.app.model;
 
 /**
- * member
+ * Member
  */
-public class member {
+public class Member {
     private Integer id;
 	private String lastname;
     private String name;
@@ -20,10 +20,10 @@ public class member {
     private Subscription subscription;
 	
 	
-	public member() {
+	public Member() {
 		this(0,"","","","","",Subscription.BASIC);
 	}
-	public member(String name, String lastname, String address, String email, String phone, Subscription subs) {
+	public Member(String name, String lastname, String address, String email, String phone, Subscription subs) {
 		this.name = name;
 		this.lastname = lastname;
 		this.address = address;
@@ -31,7 +31,7 @@ public class member {
 		this.phone = phone;
 		this.subscription = subs;
 	}
-	public member(Integer id, String name, String lastname, String address, String email, String phone, Subscription subs) {
+	public Member(Integer id, String name, String lastname, String address, String email, String phone, Subscription subs) {
 		this(name,lastname,address,email,phone,subs);
 		this.id = id;
 	}

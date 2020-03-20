@@ -23,7 +23,7 @@ public class Member {
 	public Member() {
 		this(0,"","","","","",Subscription.BASIC);
 	}
-	public Member(String name, String lastname, String address, String email, String phone, Subscription subs) {
+	public Member( String lastname, String name, String address, String email, String phone, Subscription subs) {
 		this.name = name;
 		this.lastname = lastname;
 		this.address = address;
@@ -31,7 +31,7 @@ public class Member {
 		this.phone = phone;
 		this.subscription = subs;
 	}
-	public Member(Integer id, String name, String lastname, String address, String email, String phone, Subscription subs) {
+	public Member(Integer id, String lastname, String name, String address, String email, String phone, Subscription subs) {
 		this(name,lastname,address,email,phone,subs);
 		this.id = id;
 	}

@@ -1,11 +1,8 @@
 package com.app.dao;
 
-import java.time.LocalDate;
 import java.util.List;
-
 import com.app.exception.DaoException;
 import com.app.model.*;
-import com.app.exception.DaoException;
 
 public interface MemberDao {
 	public List<Member> getList() throws DaoException;

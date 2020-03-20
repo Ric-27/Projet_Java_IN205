@@ -36,7 +36,17 @@ public class LendingDaoImpl implements LendingDao {
 	private static final String SELECT_ONE_QUERY = "SELECT e.id AS idEmprunt, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE e.id = ?;";
 	private static final String CREATE_QUERY = "INSERT INTO Emprunt (idMembre, idLivre, dateEmprunt, dateRetour) VALUES (?, ?, ?, ?);";
 	private static final String UPDATE_QUERY = "UPDATE Emprunt SET idMembre=?, idLivre=?,dateEmprunt=?, dateRetour=? WHERE id=?;";
-	private static final String COUNT_QUERY = "SELECT COUNT(*) AS count FROM emprunt WHERE idMembre IN (SELECT id FROM membre) and idLivre IN (SELECT id FROM livre);";
+    private static final String COUNT_QUERY = "SELECT COUNT(*) AS count FROM emprunt WHERE idMembre IN (SELECT id FROM membre) and idLivre IN (SELECT id FROM livre);";
+    
+
+    public ResultSet prepareStatementFunction(PreparedStatement preparedStatement, int idMembre, int idLivre, LocalDate lendingDate) throws SQLException{
+        preparedStatement.setInt(1, idMembre);
+        preparedStatement.setInt(2, idLivre);
+        preparedStatement.setDate(3, Date.valueOf(lendingDate));
+        preparedStatement.setDate(4, null);
+        ResultSet res = preparedStatement.getGeneratedKeys();
+        return res;
+    }
 
     @Override
 	public void create(int idMembre, int idLivre, LocalDate dateLending) throws DaoException{
@@ -56,16 +66,10 @@ public class LendingDaoImpl implements LendingDao {
         }catch(SQLException e){
             throw new DaoException("Probleme lors de la creation de l'emprunt");
         }
-
-
     }
 
-    public ResultSet prepareStatementFunction(PreparedStatement preparedStatement, int idMembre, int idLivre, LocalDate lendingDate) throws SQLException{
-        preparedStatement.setInt(1, idMembre);
-        preparedStatement.setInt(2, idLivre);
-        preparedStatement.setDate(3, Date.valueOf(lendingDate));
-        preparedStatement.setDate(4, null);
-        ResultSet res = preparedStatement.getGeneratedKeys();
-        return res;
+    @Override
+	public void update(Lending lending) throws DaoException{
+        
     }
 }

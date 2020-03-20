@@ -39,7 +39,7 @@ public class LendingDaoImpl implements LendingDao {
     private static final String COUNT_QUERY = "SELECT COUNT(*) AS count FROM emprunt WHERE idMembre IN (SELECT id FROM membre) and idLivre IN (SELECT id FROM livre);";
     
 
-    public ResultSet prepareStatementFunction(PreparedStatement preparedStatement, int idMembre, int idLivre, LocalDate lendingDate) throws SQLException{
+    public ResultSet createStatementFunction(PreparedStatement preparedStatement, int idMembre, int idLivre, LocalDate lendingDate) throws SQLException{
         preparedStatement.setInt(1, idMembre);
         preparedStatement.setInt(2, idLivre);
         preparedStatement.setDate(3, Date.valueOf(lendingDate));
@@ -52,7 +52,7 @@ public class LendingDaoImpl implements LendingDao {
 	public void create(int idMembre, int idLivre, LocalDate dateLending) throws DaoException{
         try (Connection connection = ConnectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
-            ResultSet result = prepareStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
+            ResultSet result = createStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
             {
                 if (result.next()){
 
@@ -68,8 +68,37 @@ public class LendingDaoImpl implements LendingDao {
         }
     }
 
+    public void updateStatementFunction(PreparedStatement preparedStatement, Lending lending) throws SQLException{
+        preparedStatement.setInt(2, lending.getBook().getId());
+        preparedStatement.setDate(3, Date.valueOf(lending.getLendDate()));
+        if (lending.getReturnDate() != null)
+            preparedStatement.setDate(4, Date.valueOf(lending.getReturnDate()));
+        else
+            preparedStatement.setDate(4, null);
+        preparedStatement.setInt(5, lending.getId());
+        preparedStatement.executeUpdate();
+        System.out.println("UPDATE LOAN: " + lending);
+    }
+
     @Override
 	public void update(Lending lending) throws DaoException{
+        try(Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY);
+            ){
+                updateStatementFunction(preparedStatement, lending);
+            }catch(SQLException e){
+                throw new DaoException("Problems updating the loan :" + lending);
+            }
+
+    }
+
+    @Override
+    public List<Lending> getList() throws DaoException{
         
     }
+	public List<Lending> getListCurrent() throws DaoException;
+	public List<Lending> getListCurrentByMembre(int idMembre) throws DaoException;
+	public List<Lending> getListCurrentByLivre(int idLivre) throws DaoException;
+	public Lending getById(int id) throws DaoException;
+	public int count() throws DaoException;
 }

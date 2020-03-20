@@ -94,9 +94,32 @@ public class LendingDaoImpl implements LendingDao {
 
     @Override
     public List<Lending> getList() throws DaoException{
+        List<Lending> lendings = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_QUERY);
+            ResultSet res = preparedStatement.executeQuery();){
+                MemberDao memberDao= MemberDaoImpl.getInstance();
+                BookDao bookDao = BookDaoImpl.getInstance();
+
+                while(res.next()){
+                    lendings.add(new Lending(res.getInt("id"),
+                                            memberDao.getById(res.getInt("idMembre")),
+                                            bookDao.getById(res.getInt("idLivre")),
+                                            res.getDate("dateEmprunt").toLocalDate(),
+                                            res.getDate("dateReturn").toLocalDate()));
+                }
+            
+        } catch (SQLException e) {
+            throw new DaoException("Problems getting the list");
+        }
+        return lendings;
+    }
+    public List<Lending> getListCurrent() throws DaoException{
         
     }
-	public List<Lending> getListCurrent() throws DaoException;
+    
+
 	public List<Lending> getListCurrentByMembre(int idMembre) throws DaoException;
 	public List<Lending> getListCurrentByLivre(int idLivre) throws DaoException;
 	public Lending getById(int id) throws DaoException;

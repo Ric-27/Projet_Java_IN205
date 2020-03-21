@@ -109,19 +109,142 @@ public class LendingDaoImpl implements LendingDao {
                                             res.getDate("dateEmprunt").toLocalDate(),
                                             res.getDate("dateReturn").toLocalDate()));
                 }
+
+                System.out.println("List of all the loans: " + lendings);
             
         } catch (SQLException e) {
-            throw new DaoException("Problems getting the list");
+            throw new DaoException("Problems getting the general list of loans");
         }
         return lendings;
     }
+    @Override
     public List<Lending> getListCurrent() throws DaoException{
-        
+        List<Lending> lendings = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOT_RETURNED_QUERY);
+        ResultSet res = preparedStatement.executeQuery();){
+            MemberDao memberDao= MemberDaoImpl.getInstance();
+            BookDao bookDao = BookDaoImpl.getInstance();
+
+            while(res.next()){
+                lendings.add(new Lending(res.getInt("id"),
+                                        memberDao.getById(res.getInt("idMembre")),
+                                        bookDao.getById(res.getInt("idLivre")),
+                                        res.getDate("dateEmprunt").toLocalDate(),
+                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+            }
+        System.out.println("List of the current lendings : " + lendings);
+    } catch (SQLException e) {
+        throw new DaoException("Problems getting the current list of loans");
+    }
+    return lendings;
     }
     
 
-	public List<Lending> getListCurrentByMembre(int idMembre) throws DaoException;
-	public List<Lending> getListCurrentByLivre(int idLivre) throws DaoException;
-	public Lending getById(int id) throws DaoException;
-	public int count() throws DaoException;
+    
+    public ResultSet getByFunction(PreparedStatement preparedStatement,int idMembre) throws SQLException{
+        
+        preparedStatement.setInt(1, idMembre);
+        ResultSet res = preparedStatement.executeQuery();
+        return res;
+    }
+
+    @Override
+	public List<Lending> getListCurrentByMembre(int idMembre) throws DaoException{
+        List<Lending> lendings = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOT_RETURNED_MEM_QUERY);
+        ResultSet res = getByFunction(preparedStatement, idMembre)){
+
+            MemberDao memberDao= MemberDaoImpl.getInstance();
+            BookDao bookDao = BookDaoImpl.getInstance();
+
+            while(res.next()){
+                lendings.add(new Lending(res.getInt("id"),
+                                        memberDao.getById(res.getInt("idMembre")),
+                                        bookDao.getById(res.getInt("idLivre")),
+                                        res.getDate("dateEmprunt").toLocalDate(),
+                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+            }
+            System.out.println("List of the current loans of the member: "+ idMembre + ". Loans: " + lendings);
+        
+        } catch (SQLException e) {
+            throw new DaoException("Problems getting the list by member");
+        }
+        return lendings;       
+    }
+
+    @Override
+	public List<Lending> getListCurrentByLivre(int idLivre) throws DaoException{
+        List<Lending> lendings = new ArrayList<>();
+
+        try (Connection connection = ConnectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOT_RETURNED_LIV_QUERY);
+        ResultSet res = getByFunction(preparedStatement, idLivre)){
+
+            MemberDao memberDao= MemberDaoImpl.getInstance();
+            BookDao bookDao = BookDaoImpl.getInstance();
+
+            while(res.next()){
+                lendings.add(new Lending(res.getInt("id"),
+                                        memberDao.getById(res.getInt("idMembre")),
+                                        bookDao.getById(res.getInt("idLivre")),
+                                        res.getDate("dateEmprunt").toLocalDate(),
+                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+            }
+            System.out.println("List of the current loans of the book: "+ idLivre + ". Loans: " + lendings);
+        
+        } catch (SQLException e) {
+            throw new DaoException("Problems getting the list by livre");
+        }
+        return lendings; 
+
+    }
+
+    @Override
+	public Lending getById(int id) throws DaoException{
+        Lending lending = new Lending();
+
+        try (Connection connection = ConnectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOT_RETURNED_MEM_QUERY);
+        ResultSet res = getByFunction(preparedStatement, id)){
+
+            MemberDao memberDao= MemberDaoImpl.getInstance();
+            BookDao bookDao = BookDaoImpl.getInstance();
+
+            if(res.next()){
+                lending = new Lending(res.getInt("id"),
+                                        memberDao.getById(res.getInt("idMembre")),
+                                        bookDao.getById(res.getInt("idLivre")),
+                                        res.getDate("dateEmprunt").toLocalDate(),
+                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate());
+            }
+            System.out.println("Loan with the ID: "+ id + ". Loan:  " + lending);
+        
+        } catch (SQLException e) {
+            throw new DaoException("Problems getting the list by Id");
+        }
+        return lending; 
+    }
+
+    @Override
+	public int count() throws DaoException{
+        int lendings = -1;
+
+        try (Connection connection = ConnectionManager.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(COUNT_QUERY);
+        ResultSet result = preparedStatement.executeQuery();) {
+
+       if (result.next()) {
+           lendings = result.getInt(1);
+           System.out.println("LOANS QUANTITY: " + lendings);
+       }
+   } catch (SQLException e) {
+       throw new DaoException("Problems counting the number of loans", e);
+   } 
+   
+   return lendings;
+    }
 }

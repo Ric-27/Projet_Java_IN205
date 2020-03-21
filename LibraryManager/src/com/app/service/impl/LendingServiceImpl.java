@@ -58,6 +58,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return lendings;
     }
+
     @Override
     public List<Lending> getListCurrentByBook(int idBook) throws ServiceException{
         List<Lending> lendings = new ArrayList<>();
@@ -70,6 +71,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return lendings;
     }
+
     @Override
     public Lending getById(int id) throws ServiceException{
         Lending lending = new Lending();
@@ -82,6 +84,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return lending;
     }
+
     @Override
     public void create(int idMember, int idBook, LocalDate dateLending) throws ServiceException{
         LendingDao lendingDao = LendingDaoImpl.getInstance();
@@ -92,6 +95,7 @@ public class LendingServiceImpl implements LendingService {
             System.out.println(e.getMessage());
         }
     }
+
     @Override
     public void returnBook(int id) throws ServiceException{
         LendingDao lendingDao = LendingDaoImpl.getInstance();
@@ -103,6 +107,7 @@ public class LendingServiceImpl implements LendingService {
             System.out.println(e.getMessage());
         }
     }
+
     @Override
     public int count() throws ServiceException{
         LendingDao lendingDao = LendingDaoImpl.getInstance();
@@ -115,6 +120,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return loans;
     }
+
     @Override
     public boolean isBookDispo(int idBook) throws ServiceException{
         List<Lending> lendings = new ArrayList<>();
@@ -130,6 +136,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return disponibility;
     }
+    
     @Override
 	public boolean isLendingPossible(Member member) throws ServiceException{
         LendingDao lendingDao = LendingDaoImpl.getInstance();

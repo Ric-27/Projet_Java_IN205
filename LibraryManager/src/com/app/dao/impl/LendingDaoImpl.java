@@ -54,6 +54,8 @@ public class LendingDaoImpl implements LendingDao {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
             ResultSet result = createStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
             {
+                preparedStatement.setInt(1, idMembre);
+                
                 if (result.next()){
 
                     MemberDao memberDao = MemberDaoImpl.getInstance();

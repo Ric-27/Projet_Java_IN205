@@ -35,7 +35,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> getListDispo() throws ServiceException{
-        BookDao bookDaoImpl = BookDaoImpl.getInstance();
         LendingService loanServiceImpl = LendingServiceImpl.getInstance();
         List<Book> books = new ArrayList<>();
         List<Book> booksDispo = new ArrayList<>();
@@ -46,10 +45,11 @@ public class BookServiceImpl implements BookService {
                     booksDispo.add(books.get(i));
                 }
             }
-        } catch (DaoException e) {
+        } catch (ServiceException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+        return booksDispo;
     }
 
     @Override

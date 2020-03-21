@@ -35,7 +35,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getListMemberEmpruntPossible() throws ServiceException{
-        MemberDao memberDaoImpl = MemberDaoImpl.getInstance();
         LendingService loanServiceImpl = LendingServiceImpl.getInstance();
         List<Member> members = new ArrayList<>();
         List<Member> membersLoanPossible = new ArrayList<>();
@@ -46,10 +45,11 @@ public class MemberServiceImpl implements MemberService {
                     membersLoanPossible.add(members.get(i));
                 }
             }
-        } catch (DaoException e) {
+        } catch (ServiceException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
+        return membersLoanPossible;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class MemberServiceImpl implements MemberService {
         LendingService loanServiceImpl = LendingServiceImpl.getInstance();
         try {
             memberDaoImpl.delete(id);
-            List<Lending> loanList = LendingServiceImpl.getListCurrentByMembre(id);
+            List<Lending> loanList = loanServiceImpl.getListCurrentByMember(id);
 			for (Lending loan : loanList)
 				loanServiceImpl.returnBook(loan.getBook().getId());
         } catch (DaoException e) {

@@ -87,16 +87,14 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                  <% if(!currentLoans.isEmpty()) {
-                    for(Loan loan : currentLoans) { %>
-                      <tr>
-                        <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
-                        <td><%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></td>
-                        <td><%= loan.getLoanDate() %></td>
-                        <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>													
-                      </tr>
-                    <% }
-                  } %>
+                  <c:forEach items="${currentLoansJSP}" var="loan">
+                    <tr>
+                      <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
+                      <td><%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></td>
+                      <td><%= loan.getLoanDate() %></td>
+                      <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>													
+                    </tr>
+                  </c:forEach>
                      <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>

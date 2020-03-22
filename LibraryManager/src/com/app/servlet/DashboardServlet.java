@@ -17,38 +17,39 @@ import com.app.model.*;
 
 public class DashboardServlet extends HttpServlet{
     @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final String action = request.getServletPath();
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getServletPath();
+        System.out.println("dashboard");
+        System.out.println(action);
         if (action == "/dashboard") {
-            final MemberService memberServiceImpl = MemberServiceImpl.getInstance();
+            MemberService memberServiceImpl = MemberServiceImpl.getInstance();
             int countOfMembers = -1;
             try {
                 countOfMembers = memberServiceImpl.count();
-            } catch (final ServiceException e) {
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
             request.setAttribute("countOfMembersJSP", countOfMembers);
 
-            final BookService bookServiceImpl = BookServiceImpl.getInstance();
+            BookService bookServiceImpl = BookServiceImpl.getInstance();
             int countOfBooks = -1;
 
             try {
                 countOfBooks = bookServiceImpl.count();
-            } catch (final ServiceException e) {
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
 
             request.setAttribute("countOfBooksJSP", countOfBooks);
 
-            final LendingService loanServiceImpl = LendingServiceImpl.getInstance();
+            LendingService loanServiceImpl = LendingServiceImpl.getInstance();
             int countOfLoans = -1;
 
             try {
                 countOfLoans = loanServiceImpl.count();
-            } catch (final ServiceException e) {
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
@@ -59,14 +60,15 @@ public class DashboardServlet extends HttpServlet{
 
             try {
                 currentLoans = loanServiceImpl.getListCurrent();
-            } catch (final ServiceException e) {
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
 
             request.setAttribute("currentLoansJSP", currentLoans);
-
-            final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/dashboard.jsp");
+            System.out.println("here");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/dashboard.jsp");
+            System.out.println("there");
             dispatcher.forward(request, response);
         }
     }

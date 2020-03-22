@@ -38,7 +38,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>countOfMembersJSP</h3> <!-- TODO : afficher le nombre de membres � la place de 12 -->
+              <h3><%=countOfMembersJSP%></h3> <!-- TODO : afficher le nombre de membres � la place de 12 -->
               <p>Membres</p>
             </div>
             <div class="icon">
@@ -50,7 +50,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>countOfBooksJSP</h3> <!-- TODO : afficher le nombre de livres � la place de 27 -->
+              <h3><%=countOfBooksJSP%></h3> <!-- TODO : afficher le nombre de livres � la place de 27 -->
               <p>Livres</p>
             </div>
             <div class="icon">
@@ -62,7 +62,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>countOfLoansJSP</h3> <!-- TODO : afficher le nombre d'emprunts � la place de 1515 -->
+              <h3><%=countOfLoansJSP%></h3> <!-- TODO : afficher le nombre d'emprunts � la place de 1515 -->
               <p>Emprunts</p>
             </div>
             <div class="icon">
@@ -88,8 +88,8 @@
                     for(Lending loan : currentLoansJSP) { %>
                       <tr>
                         <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
-                        <td><%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></td>
-                        <td><%= loan.getLoanDate() %></td>
+                        <td><%= loan.getMember().getName() %> <%= loan.getMember().getLastname() %></td>
+                        <td><%= loan.getLendDate() %></td>
                         <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>											
                       </tr>
                     <% }

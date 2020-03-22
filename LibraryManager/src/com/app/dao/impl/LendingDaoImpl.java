@@ -11,11 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.app.dao.*;
 import com.app.exception.*;
-import com.app.model.Lending;
+import com.app.model.*;
 import com.app.persistence.ConnectionManager;
 
 public class LendingDaoImpl implements LendingDao {
@@ -29,7 +27,7 @@ public class LendingDaoImpl implements LendingDao {
 		return instance;
     }
     
-    private static final String SELECT_ALL_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre ORDER BY dateRetour DESC;";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM Emprunt";
 	private static final String SELECT_NOT_RETURNED_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL;";
 	private static final String SELECT_NOT_RETURNED_MEM_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL AND membre.id = ?;";
 	private static final String SELECT_NOT_RETURNED_LIV_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL AND livre.id = ?;";
@@ -110,10 +108,7 @@ public class LendingDaoImpl implements LendingDao {
                                             bookDao.getById(res.getInt("idLivre")),
                                             res.getDate("dateEmprunt").toLocalDate(),
                                             res.getDate("dateReturn").toLocalDate()));
-                }
-
-                //System.out.println("List of all the loans: " + lendings);
-            
+                }            
         } catch (SQLException e) {
             throw new DaoException("Problems getting the general list of loans");
         }

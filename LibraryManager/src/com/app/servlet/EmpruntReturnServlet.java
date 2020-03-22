@@ -1,26 +1,86 @@
 package com.app.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.app.exception.*;
 import com.app.service.*;
+import com.app.service.impl.*;
 import com.app.model.*;
 
 public class EmpruntReturnServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String servletPath = request.getServletPath();
+		String action = request.getServletPath();
 		
-		if (servletPath.equals("/emprunt_return")) {
+		if (action.equals("/emprunt_return")) {
+            int id = -1;
+            if (request.getParameter("id") != null){
+				id = Integer.parseInt(request.getParameter("id"));
+			}
+			LendingService lendingServiceImpl = LendingServiceImpl.getInstance();
+			List<Lending> loanList = new ArrayList<>();
+			
+			try {
+                loanList = lendingServiceImpl.getListCurrent();
+                if (id > -1)
+                    request.setAttribute("id", id);
+			} catch (ServiceException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("loanListJSP", loanList);
+
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_return.jsp");
 			dispatcher.forward(request, response);
 		}
     }
 
+    @Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LendingService lendingServiceImpl = LendingServiceImpl.getInstance();
+		List<Lending> loanList = new ArrayList<>();
+		
+        try {
+            if (request.getParameter("id") == null)
+                throw new ServletException("Error. Choose a Loan");
+            else {
+				lendingServiceImpl.returnBook(Integer.parseInt(request.getParameter("id")));
+			
+				loanList = lendingServiceImpl.getListCurrent();
+				
+				request.setAttribute("loanListJSP", loanList);
+				request.setAttribute("show", "current");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
+				dispatcher.forward(request, response);
+			}
+		} catch (ServletException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+
+			try {
+				loanList = lendingServiceImpl.getListCurrent();
+			} catch (ServiceException serviceException) {
+				System.out.println(serviceException.getMessage());
+				serviceException.printStackTrace();
+			}
+
+			request.setAttribute("loanListJSP", loanList);
+			request.setAttribute("errorMessage", e.getMessage());
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_return.jsp");
+			dispatcher.forward(request, response);
+		} catch (ServiceException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+	}
 }

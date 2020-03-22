@@ -21,16 +21,42 @@
       </div>
       <div class="row">
       <div class="container">
-        <h5>Sélectionnez le livre à retourner</h5>
+        <h5>Selectionnez le livre a retourner</h5>
         <div class="row">
 	      <form action="/LibraryManager/emprunt_return" method="post" class="col s12">
 	        <div class="row">
 	          <div class="input-field col s12">
 	            <select id="id" name="id" class="browser-default">
+                <c:if test="${id != null && !loanListJSP.isEmpty()}">
+
+                </c:if>
 	              <option value="" disabled selected>---</option>
-                  <!-- TODO : parcourir la liste des emprunts non rendus et afficher autant d'options que nécessaire, sur la base de l'exemple ci-dessous -->
-                  <!-- TODO : si l'attribut id existe, l'option correspondante devra être sélectionnée par défaut (ajouter l'attribut selected dans la balise <option>) -->
-                  <option value="idDeLEmprunt">"Titre du livre", emprunté par Prénom et nom du membre emprunteur</option>
+                  <!-- TODO : parcourir la liste des emprunts non rendus et afficher autant d'options que nï¿½cessaire, sur la base de l'exemple ci-dessous -->
+                  <!-- TODO : si l'attribut id existe, l'option correspondante devra ï¿½tre sï¿½lectionnï¿½e par dï¿½faut (ajouter l'attribut selected dans la balise <option>) -->
+                  <option value="idDeLEmprunt">"Titre du livre", empruntï¿½ par Prï¿½nom et nom du membre emprunteur</option>
+                  <c:if test="${! empty loanListJSP}">
+                    <c:forEach var="loan" items="${loanListJSP}">
+                      <option value="<c:out value="${member.getId()}"/>"><c:out value="${member.getLastname()}"/>, <c:out value="${member.getName()}"/></option>
+                    </c:forEach>
+                  </c:if>
+              </select>
+              <select id="id" name="id" class="browser-default">
+	              <% if (request.getAttribute("id") != null && !loanList.isEmpty()) {
+                  for (Loan loan : loanList) {
+                    if (loan.getId() == (int) request.getAttribute("id")) { %>
+                      <option value='<%= loan.getId() %>' selected>"<%= loan.getBook().getTitle() %>", empruntÃ© par <%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></option>
+                    <% }
+                  }
+                } else { %>
+                  <option value="" default disabled selected>---</option>
+                <% }
+                if (!loanList.isEmpty()) {
+                  for (Loan loan : loanList) {
+                    if (request.getAttribute("id") == null || loan.getId() != (int) request.getAttribute("id")) { %>
+                      <option value='<%= loan.getId() %>'>"<%= loan.getBook().getTitle() %>", empruntÃ© par <%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></option>
+                    <% }
+                  }
+                } %>
 	            </select>
 	          </div>
 	        </div>

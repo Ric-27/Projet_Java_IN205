@@ -34,6 +34,7 @@ public class LendingServiceImpl implements LendingService {
         }
         return lendings;
     }
+    
     @Override
     public List<Lending> getListCurrent() throws ServiceException{
         List<Lending> lendings = new ArrayList<>();

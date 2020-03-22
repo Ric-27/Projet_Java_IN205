@@ -41,7 +41,7 @@
                           <td><c:out value="${loan.getLendDate()}" /></td>
                           <td>
                             <c:if test="${loan.getReturnDate() == null}">
-                              <td><a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a></td>
+                              <a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a>
                             </c:if>
                             <c:if test="${loan.getReturnDate() != null}">
                               <c:out value="${loan.getReturnDate()}" />

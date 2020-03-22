@@ -63,7 +63,7 @@ public class EmpruntAddServlet extends HttpServlet {
                 loanService.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
                 lendingList = loanService.getListCurrent();
                 request.setAttribute("LendingListJSP", lendingList);
-                request.setAttribute("show", "all");
+                request.setAttribute("show", "current");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
                 dispatcher.forward(request, response);
             }

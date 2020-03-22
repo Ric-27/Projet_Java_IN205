@@ -26,15 +26,15 @@ public class EmpruntListServlet extends HttpServlet {
             if (request.getParameter("show") != null && request.getParameter("show").contains("all"))
                 show = "all";
 
-			LendingService loanService = LendingServiceImpl.getInstance();
+			LendingService loanServiceImpl = LendingServiceImpl.getInstance();
 			List<Lending> loanList = new ArrayList<>();
 			
 			try {
                 if (show.equals("current")) {
-                    loanList = loanService.getListCurrent();
+                    loanList = loanServiceImpl.getListCurrent();
                     request.setAttribute("show", "all");
                 } else {
-                    loanList = loanService.getList();
+                    loanList = loanServiceImpl.getList();
                     request.setAttribute("show", "current");
                 }
 			} catch (ServiceException e) {

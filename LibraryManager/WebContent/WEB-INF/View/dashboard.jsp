@@ -1,6 +1,3 @@
-
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.app.model.Lending" %>
@@ -87,14 +84,16 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                  <c:forEach items="${currentLoansJSP}" var="loan">
-                    <tr>
-                      <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
-                      <td><%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></td>
-                      <td><%= loan.getLoanDate() %></td>
-                      <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>													
-                    </tr>
-                  </c:forEach>
+                  <% if(!currentLoansJSP.isEmpty()) {
+                    for(Lending loan : currentLoansJSP) { %>
+                      <tr>
+                        <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
+                        <td><%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></td>
+                        <td><%= loan.getLoanDate() %></td>
+                        <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>											
+                      </tr>
+                    <% }
+                  } %>
                      <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>

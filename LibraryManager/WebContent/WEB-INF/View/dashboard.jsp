@@ -11,7 +11,7 @@
 <% countOfBooksJSP = (int) request.getAttribute("countOfBooksJSP");%>
 <%! private int countOfLoansJSP = -1;%>
 <% countOfLoansJSP = (int) request.getAttribute("countOfLoansJSP");%>
-<%! private List<Loan> currentLoansJSP = new ArrayList<>();%>
+<%! private List<Lending> currentLoansJSP = new ArrayList<>();%>
 <% currentLoansJSP = (List) request.getAttribute("currentLoansJSP"); %>
 
 <!DOCTYPE html>

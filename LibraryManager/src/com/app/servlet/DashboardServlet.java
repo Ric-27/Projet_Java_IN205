@@ -17,8 +17,7 @@ import com.app.model.*;
 
 public class DashboardServlet extends HttpServlet{
     @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         final String action = request.getServletPath();
 
         if (action == "/dashboard") {

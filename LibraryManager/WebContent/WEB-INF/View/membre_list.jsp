@@ -41,7 +41,7 @@
                 <td class="hide-on-small-only">Adresse du membre</td>
                 <td class="hide-on-small-only">E-mail du membre</td>
                 <td class="hide-on-small-only">Telephone du membre</td>
-                <td class="center"><a href="membre_details?member=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                <td class="center"><a href="membre_details?memberId=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
               </tr>
               <c:if test="${! empty memberListJSP }">
                 <c:forEach var="member" items="${memberListJSP}">
@@ -51,7 +51,7 @@
                     <td><c:out value="${member.getAddress()}" /></td>
                     <td><c:out value="${member.getEmail()}" /></td>
                     <td><c:out value="${member.getPhone()}" /></td>
-                    <td class="center"><a href="membre_details?member=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                    <td class="center"><a href="membre_details?memberId=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
 
                   </tr>
                 </c:forEach>

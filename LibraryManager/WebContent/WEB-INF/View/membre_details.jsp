@@ -4,14 +4,10 @@
   pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="model.*" %>
 <%@ page import="service.*" %>
 <%@ page import="service.impl.*" %>
-<%@ page import="model.*" %>
 <%@ page import="java.util.List" %>
-
-<%! private Member member = new Member();%>
-<%! private MemberService memberService = MemberServiceImpl.getInstance();%>
-<% member = memberService.getById((int) request.getAttribute("memberId"));%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,9 +30,9 @@
       </div>
       <div class="row">
       <div class="container">
-      <h5>Details du membre <c:out value="${member.getId()}"/></h5> <!-- TODO : remplacer 007 par l'id du membre -->
+      <h5>Details du membre <c:out value="${memberId}"/></h5> <!-- TODO : remplacer 007 par l'id du membre -->
         <div class="row">
-	      <form action="/Projet-Ric-David/membre_details?memberId=${memberId}" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	      <form action="/Projet-Ric-David/membre_details?memberId=${memberIdws}" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row">
 	          <div class="input-field col s4">
 	            <input id="nom" type="text" value="nomDuMembre" name="nom"> <!-- TODO : remplacer nomDuMembre par le nom du membre -->

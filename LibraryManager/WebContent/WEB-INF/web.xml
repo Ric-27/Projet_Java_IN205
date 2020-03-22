@@ -9,7 +9,7 @@
  <!-- Dashboard servlet -->
  <servlet>
   <servlet-name>DashboardServlet</servlet-name>
-  <servlet-class>servlet.DashboardServlet</servlet-class>    
+  <servlet-class>com.app.servlet.DashboardServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>DashboardServlet</servlet-name>
@@ -20,7 +20,7 @@
 <!-- Loan add servlet -->
 <servlet>
   <servlet-name>EmpruntAddServlet</servlet-name>
-  <servlet-class>servlet.EmpruntAddServlet</servlet-class>    
+  <servlet-class>com.app.servlet.EmpruntAddServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>EmpruntAddServlet</servlet-name>
@@ -30,7 +30,7 @@
 <!-- Loan list servlet -->
 <servlet>
   <servlet-name>EmpruntListServlet</servlet-name>
-  <servlet-class>servlet.EmpruntListServlet</servlet-class>    
+  <servlet-class>com.app.servlet.EmpruntListServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>EmpruntListServlet</servlet-name>
@@ -40,7 +40,7 @@
 <!-- Loan return servlet -->
 <servlet>
   <servlet-name>EmpruntReturnServlet</servlet-name>
-  <servlet-class>servlet.EmpruntReturnServlet</servlet-class>    
+  <servlet-class>com.app.servlet.EmpruntReturnServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>EmpruntReturnServlet</servlet-name>
@@ -51,7 +51,7 @@
 <!-- Book list servlet -->
 <servlet>
   <servlet-name>LivreListServlet</servlet-name>
-  <servlet-class>servlet.LivreListServlet</servlet-class>    
+  <servlet-class>com.app.servlet.LivreListServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>LivreListServlet</servlet-name>
@@ -61,7 +61,7 @@
 <!-- Book details servlet -->
 <servlet>
   <servlet-name>LivreDetailsServlet</servlet-name>
-  <servlet-class>servlet.LivreDetailsServlet</servlet-class>    
+  <servlet-class>com.app.servlet.LivreDetailsServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>LivreDetailsServlet</servlet-name>
@@ -71,7 +71,7 @@
 <!-- Book add servlet -->
 <servlet>
   <servlet-name>LivreAddServlet</servlet-name>
-  <servlet-class>servlet.LivreAddServlet</servlet-class>    
+  <servlet-class>com.app.servlet.LivreAddServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>LivreAddServlet</servlet-name>
@@ -81,7 +81,7 @@
 <!-- Book delete servlet -->
 <servlet>
   <servlet-name>LivreDeleteServlet</servlet-name>
-  <servlet-class>servlet.LivreDeleteServlet</servlet-class>    
+  <servlet-class>com.app.servlet.LivreDeleteServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>LivreDeleteServlet</servlet-name>
@@ -92,7 +92,7 @@
 <!-- Member list servlet -->
 <servlet>
   <servlet-name>MembreListServlet</servlet-name>
-  <servlet-class>servlet.MembreListServlet</servlet-class>    
+  <servlet-class>com.app.servlet.MembreListServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>MembreListServlet</servlet-name>
@@ -102,7 +102,7 @@
 <!-- Member details servlet -->
 <servlet>
   <servlet-name>MembreDetailsServlet</servlet-name>
-  <servlet-class>servlet.MembreDetailsServlet</servlet-class>    
+  <servlet-class>com.app.servlet.MembreDetailsServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>MembreDetailsServlet</servlet-name>
@@ -112,7 +112,7 @@
 <!-- Member add servlet -->
 <servlet>
   <servlet-name>MembreAddServlet</servlet-name>
-  <servlet-class>servlet.MembreAddServlet</servlet-class>    
+  <servlet-class>com.app.servlet.MembreAddServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>MembreAddServlet</servlet-name>
@@ -122,7 +122,7 @@
 <!-- Member delete servlet -->
 <servlet>
   <servlet-name>MembreDeleteServlet</servlet-name>
-  <servlet-class>servlet.MembreDeleteServlet</servlet-class>    
+  <servlet-class>com.app.servlet.MembreDeleteServlet</servlet-class>    
 </servlet>
 <servlet-mapping>
   <servlet-name>MembreDeleteServlet</servlet-name>

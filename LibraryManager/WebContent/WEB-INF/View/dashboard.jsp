@@ -75,7 +75,7 @@ pageEncoding="UTF-8"%>
                     </tr>
                 </thead>
                 <tbody id="results">
-                  <c:if test="${! empty currentLoansJSP }">
+                  <c:if test="${! empty currentLoansJSP}">
                     <c:forEach var="loan" items="${currentLoansJSP}">
                       <tr>
                         <td><c:out value="${loan.getBook().getTitle()}" />, <em><c:out value="${loan.getBook().getAuthor()}" /></em></td>

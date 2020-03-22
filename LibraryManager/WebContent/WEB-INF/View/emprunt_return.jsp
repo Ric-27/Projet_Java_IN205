@@ -27,37 +27,28 @@
 	        <div class="row">
 	          <div class="input-field col s12">
 	            <select id="id" name="id" class="browser-default">
-                <c:if test="${id != null && !loanListJSP.isEmpty()}">
-
+                <c:choose>
+                  <c:when test="${(! empty id) && (! empty loanListJSP)}">
+                    <c:forEach var="loan" items="${loanListJSP}">
+                      <c:if test="${loan.getId() eq id}">
+                        <option value="<c:out value="${loan.getId()}"/>" selected>"<c:out value="${loan.getBook().getTitle()}"/>", emprunté par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
+                      </c:if>
+                    </c:forEach>
+                  </c:when>
+                  <c:otherwise>
+                    <option value="" default disabled selected>---</option>
+                  </c:otherwise>
+                </c:choose>
+                <c:if test="${! empty loanListJSP}">
+                  <c:forEach var="loan" items="${loanListJSP}">
+                      <c:if test="${(empty id) || (id eq loan.getId())}">
+                        <option value="<c:out value="${loan.getId()}"/>" selected>"<c:out value="${loan.getBook().getTitle()}"/>", emprunté par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
+                      </c:if>
+                    </c:forEach>
                 </c:if>
-	              <option value="" disabled selected>---</option>
                   <!-- TODO : parcourir la liste des emprunts non rendus et afficher autant d'options que n�cessaire, sur la base de l'exemple ci-dessous -->
                   <!-- TODO : si l'attribut id existe, l'option correspondante devra �tre s�lectionn�e par d�faut (ajouter l'attribut selected dans la balise <option>) -->
-                  <option value="idDeLEmprunt">"Titre du livre", emprunt� par Pr�nom et nom du membre emprunteur</option>
-                  <c:if test="${! empty loanListJSP}">
-                    <c:forEach var="loan" items="${loanListJSP}">
-                      <option value="<c:out value="${member.getId()}"/>"><c:out value="${member.getLastname()}"/>, <c:out value="${member.getName()}"/></option>
-                    </c:forEach>
-                  </c:if>
-              </select>
-              <select id="id" name="id" class="browser-default">
-	              <% if (request.getAttribute("id") != null && !loanList.isEmpty()) {
-                  for (Loan loan : loanList) {
-                    if (loan.getId() == (int) request.getAttribute("id")) { %>
-                      <option value='<%= loan.getId() %>' selected>"<%= loan.getBook().getTitle() %>", emprunté par <%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></option>
-                    <% }
-                  }
-                } else { %>
-                  <option value="" default disabled selected>---</option>
-                <% }
-                if (!loanList.isEmpty()) {
-                  for (Loan loan : loanList) {
-                    if (request.getAttribute("id") == null || loan.getId() != (int) request.getAttribute("id")) { %>
-                      <option value='<%= loan.getId() %>'>"<%= loan.getBook().getTitle() %>", emprunté par <%= loan.getMember().getFirstName() %> <%= loan.getMember().getLastName() %></option>
-                    <% }
-                  }
-                } %>
-	            </select>
+              </select> 
 	          </div>
 	        </div>
 	        <div class="row center">

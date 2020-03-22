@@ -19,9 +19,9 @@ public class DashboardServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
-        System.out.println("dashboard");
         System.out.println(action);
-        if (action == "/dashboard") {
+        if (action.equals("/dashboard")) {
+            System.out.println("inside if");
             MemberService memberServiceImpl = MemberServiceImpl.getInstance();
             int countOfMembers = -1;
             try {

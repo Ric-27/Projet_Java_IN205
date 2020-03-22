@@ -13,6 +13,14 @@ import com.app.service.*;
 import com.app.model.*;
 
 public class MembreAddServlet extends HttpServlet {
-
+    @Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String servletPath = request.getServletPath();
+		
+		if (servletPath.equals("/membre_add")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_add.jsp");
+			dispatcher.forward(request, response);
+		}
+    }
 
 }

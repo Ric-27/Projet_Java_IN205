@@ -20,7 +20,7 @@ public class EmpruntAddServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
         final String action = request.getServletPath();
 
-        if (action == "/emprunt_add") {
+        if (action.equals("/emprunt_add")) {
             final MemberService memberServiceImpl = MemberServiceImpl.getInstance();
             int countOfMembers = -1;
             try {
@@ -66,7 +66,7 @@ public class EmpruntAddServlet extends HttpServlet {
 
             request.setAttribute("currentLoansJSP", currentLoans);
 
-            final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/dashboard.jsp");
+            final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_add.jsp");
             dispatcher.forward(request, response);
         }
     }

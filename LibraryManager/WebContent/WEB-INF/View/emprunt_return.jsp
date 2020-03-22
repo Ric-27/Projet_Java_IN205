@@ -23,7 +23,7 @@
       <div class="container">
         <h5>Selectionnez le livre a retourner</h5>
         <div class="row">
-	      <form action="/LibraryManager/emprunt_return" method="post" class="col s12">
+	      <form action="/Projet-Ric-David/emprunt_return" method="post" class="col s12">
 	        <div class="row">
 	          <div class="input-field col s12">
 	            <select id="id" name="id" class="browser-default">

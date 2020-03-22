@@ -13,6 +13,14 @@ import com.app.service.*;
 import com.app.model.*;
 
 public class LivreDeleteServlet extends HttpServlet {
-
+    @Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String servletPath = request.getServletPath();
+		
+		if (servletPath.equals("/livre_delete")) {
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/livre_delete.jsp");
+			dispatcher.forward(request, response);
+		}
+    }
 
 }

@@ -21,7 +21,8 @@ public class DashboardServlet extends HttpServlet{
         String action = request.getServletPath();
         System.out.println("dashboard");
         System.out.println(action);
-        if (action == "/dashboard") {
+            if (action.equals("/dashboard")) {
+            System.out.println(action);
             MemberService memberServiceImpl = MemberServiceImpl.getInstance();
             int countOfMembers = -1;
             try {

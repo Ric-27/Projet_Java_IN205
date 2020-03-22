@@ -37,6 +37,7 @@ public class MembreAddServlet extends HttpServlet {
 												request.getParameter("telephone"));
 
 			request.setAttribute("memberId", memberId);
+			request.setAttribute("loanList", lendingService.getListCurrentByMember(memberId));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_details.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {

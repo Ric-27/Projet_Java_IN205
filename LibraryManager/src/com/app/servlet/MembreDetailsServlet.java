@@ -33,7 +33,7 @@ public class MembreDetailsServlet extends HttpServlet {
 
 			try {
                 if (id > -1) {
-                    request.setAttribute("memberIdJSP", id);
+                    request.setAttribute("memberId", id);
                     loanList = loanService.getListCurrentByMember(id);
                     request.setAttribute("loanList", loanList);
                 }

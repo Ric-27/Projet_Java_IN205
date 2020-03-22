@@ -42,6 +42,7 @@ public class LendingDaoImpl implements LendingDao {
         preparedStatement.setInt(2, idLivre);
         preparedStatement.setDate(3, Date.valueOf(lendingDate));
         preparedStatement.setDate(4, null);
+		preparedStatement.executeUpdate();
         ResultSet res = preparedStatement.getGeneratedKeys();
         return res;
     }
@@ -54,13 +55,14 @@ public class LendingDaoImpl implements LendingDao {
             {
                 preparedStatement.setInt(1, idMembre);
                 
+                System.out.println("im in dao");
                 if (result.next()){
-
+                    System.out.println("im in the of dao");
                     MemberDao memberDao = MemberDaoImpl.getInstance();
                     BookDao bookDao = BookDaoImpl.getInstance();
                     Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
 
-                    //System.out.println("CREATE LOAN: " + lending);
+                    System.out.println("CREATE LOAN: " + lending);
                 }
 
         }catch(SQLException e){

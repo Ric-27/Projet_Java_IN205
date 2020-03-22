@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,32 +26,33 @@
             <thead>
               <tr>
                 <th>Nom</th>
-                <th>Pr�nom</th>
+                <th>Prenom</th>
                 <th class="hide-on-small-only">Adresse</th>
                 <th class="hide-on-small-only">E-mail</th>
-                <th class="hide-on-small-only">T�l�phone</th>
-                <th>D�tails</th>
+                <th class="hide-on-small-only">Telephone</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
 
               <tr>
                 <td>Nom du membre</td>
-                <td>Pr�nom du membre</td>
+                <td>Prenom du membre</td>
                 <td class="hide-on-small-only">Adresse du membre</td>
                 <td class="hide-on-small-only">E-mail du membre</td>
-                <td class="hide-on-small-only">T�l�phone du membre</td>
-                <td class="center"><a href="membre_details?id=idDuMembre"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                <td class="hide-on-small-only">Telephone du membre</td>
+                <td class="center"><a href="membre_details?member=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
               </tr>
               <c:if test="${! empty memberListJSP }">
                 <c:forEach var="member" items="${memberListJSP}">
                   <tr>
                     <td><c:out value="${member.getName()}" /></td>
-                    <td><c:out value="${member.getLastname}" /></td>
-                    <td><c:out value="${member.getLastname}" /></td>
+                    <td><c:out value="${member.getLastname()}" /></td>
+                    <td><c:out value="${member.getAddress()}" /></td>
+                    <td><c:out value="${member.getEmail()}" /></td>
+                    <td><c:out value="${member.getPhone()}" /></td>
+                    <td class="center"><a href="membre_details?member=${member.getId()}"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
 
-
-                    <td><a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a></td>													
                   </tr>
                 </c:forEach>
               </c:if>

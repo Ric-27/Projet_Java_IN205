@@ -19,9 +19,7 @@ public class DashboardServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
-        System.out.println(action);
         if (action.equals("/dashboard")) {
-            System.out.println("inside if");
             MemberService memberServiceImpl = MemberServiceImpl.getInstance();
             int countOfMembers = -1;
             try {
@@ -66,9 +64,7 @@ public class DashboardServlet extends HttpServlet{
             }
 
             request.setAttribute("currentLoansJSP", currentLoans);
-            System.out.println("here");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/dashboard.jsp");
-            System.out.println("there");
             dispatcher.forward(request, response);
         }
     }

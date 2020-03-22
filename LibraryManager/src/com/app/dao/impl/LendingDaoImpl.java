@@ -62,7 +62,7 @@ public class LendingDaoImpl implements LendingDao {
                     BookDao bookDao = BookDaoImpl.getInstance();
                     Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
 
-                    System.out.println("CREATE LOAN: " + lending);
+                    //System.out.println("CREATE LOAN: " + lending);
                 }
 
         }catch(SQLException e){
@@ -79,7 +79,7 @@ public class LendingDaoImpl implements LendingDao {
             preparedStatement.setDate(4, null);
         preparedStatement.setInt(5, lending.getId());
         preparedStatement.executeUpdate();
-        System.out.println("UPDATE LOAN: " + lending);
+        //System.out.println("UPDATE LOAN: " + lending);
     }
 
     @Override
@@ -112,7 +112,7 @@ public class LendingDaoImpl implements LendingDao {
                                             res.getDate("dateReturn").toLocalDate()));
                 }
 
-                System.out.println("List of all the loans: " + lendings);
+                //System.out.println("List of all the loans: " + lendings);
             
         } catch (SQLException e) {
             throw new DaoException("Problems getting the general list of loans");
@@ -136,7 +136,7 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-        System.out.println("List of the current lendings : " + lendings);
+        //System.out.println("List of the current lendings : " + lendings);
     } catch (SQLException e) {
         throw new DaoException("Problems getting the current list of loans");
     }
@@ -170,7 +170,7 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-            System.out.println("List of the current loans of the member: "+ idMembre + ". Loans: " + lendings);
+            //System.out.println("List of the current loans of the member: "+ idMembre + ". Loans: " + lendings);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by member");
@@ -196,7 +196,7 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-            System.out.println("List of the current loans of the book: "+ idLivre + ". Loans: " + lendings);
+            //System.out.println("List of the current loans of the book: "+ idLivre + ". Loans: " + lendings);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by livre");
@@ -223,7 +223,7 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate());
             }
-            System.out.println("Loan with the ID: "+ id + ". Loan:  " + lending);
+            //System.out.println("Loan with the ID: "+ id + ". Loan:  " + lending);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by Id");
@@ -241,7 +241,7 @@ public class LendingDaoImpl implements LendingDao {
 
        if (result.next()) {
            lendings = result.getInt(1);
-           System.out.println("LOANS QUANTITY: " + lendings);
+           //System.out.println("LOANS QUANTITY: " + lendings);
        }
    } catch (SQLException e) {
        throw new DaoException("Problems counting the number of loans", e);

@@ -47,21 +47,18 @@ public class LendingDaoImpl implements LendingDao {
     }
 
     @Override
-	public void create(int idMembre, int idLivre, LocalDate dateLending) throws DaoException{
+	public int create(int idMembre, int idLivre, LocalDate dateLending) throws DaoException{
         try (Connection connection = ConnectionManager.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
             ResultSet result = createStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
             {
-                preparedStatement.setInt(1, idMembre);
+                int id = -1;
                 
                 if (result.next()){
 
-                    MemberDao memberDao = MemberDaoImpl.getInstance();
-                    BookDao bookDao = BookDaoImpl.getInstance();
-                    Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
-
-                    //System.out.println("CREATE LOAN: " + lending);
+                    
                 }
+            return id;
 
         }catch(SQLException e){
             throw new DaoException("Probleme lors de la creation de l'emprunt");

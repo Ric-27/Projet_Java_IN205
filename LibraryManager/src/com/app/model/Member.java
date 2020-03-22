@@ -15,7 +15,11 @@ public class Member {
         private int index;
         private Subscription(int index){
             this.index = index;
-        }
+		}
+
+		public int getIndex(){
+			return this.index;
+		}
     }
     private Subscription subscription;
 	

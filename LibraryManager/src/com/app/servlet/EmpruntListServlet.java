@@ -1,26 +1,51 @@
 package com.app.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.app.exception.*;
 import com.app.service.*;
+import com.app.service.impl.*;
 import com.app.model.*;
 
 public class EmpruntListServlet extends HttpServlet {
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String servletPath = request.getServletPath();
+		String action = request.getServletPath();
 		
-		if (servletPath.equals("/emprunt_list")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/livre_details.jsp");
+		if (action.equals("/emprunt_list")) {
+            String show = "current";
+            if (request.getParameter("show") != null && request.getParameter("show").contains("all"))
+                show = "all";
+
+			LendingService loanService = LendingServiceImpl.getInstance();
+			List<Lending> loanList = new ArrayList<>();
+			
+			try {
+                if (show.equals("current")) {
+                    loanList = loanService.getListCurrent();
+                    request.setAttribute("show", "all");
+                } else {
+                    loanList = loanService.getList();
+                    request.setAttribute("show", "current");
+                }
+			} catch (ServiceException e) {
+				System.out.println(e.getMessage());
+				e.printStackTrace();
+			}
+			
+			request.setAttribute("LendingListJSP", loanList);
+
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
 			dispatcher.forward(request, response);
 		}
     }
-
 }

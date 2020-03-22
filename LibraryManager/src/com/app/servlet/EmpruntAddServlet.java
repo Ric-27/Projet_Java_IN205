@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,56 +18,85 @@ import com.app.model.*;
 
 public class EmpruntAddServlet extends HttpServlet {
     @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final String action = request.getServletPath();
-
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getServletPath();
+        
         if (action.equals("/emprunt_add")) {
-            final MemberService memberServiceImpl = MemberServiceImpl.getInstance();
-            int countOfMembers = -1;
+            MemberService memberServiceImpl = MemberServiceImpl.getInstance();
+            List<Member> availableMemberList = new ArrayList<>();
+            
             try {
-                countOfMembers = memberServiceImpl.count();
-            } catch (final ServiceException e) {
+                availableMemberList = memberServiceImpl.getListMemberEmpruntPossible();
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
-            request.setAttribute("countOfMembersJSP", countOfMembers);
+            
+            request.setAttribute("availableMemberListJSP", availableMemberList);
 
-            final BookService bookServiceImpl = BookServiceImpl.getInstance();
-            int countOfBooks = -1;
-
+            BookService bookServiceImpl = BookServiceImpl.getInstance();
+            List<Book> availableBookList = new ArrayList<>();
+            
             try {
-                countOfBooks = bookServiceImpl.count();
-            } catch (final ServiceException e) {
+                availableBookList = bookServiceImpl.getListDispo();
+            } catch (ServiceException e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
+            
+            request.setAttribute("availableBookListJSP", availableBookList);
+        
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_add.jsp");
+            dispatcher.forward(request, response);
+        }
+    }
 
-            request.setAttribute("countOfBooksJSP", countOfBooks);
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        LendingService loanService = LendingServiceImpl.getInstance();
+        List<Lending> lendingList = new ArrayList<>();
 
-            final LendingService loanServiceImpl = LendingServiceImpl.getInstance();
-            int countOfLoans = -1;
-
-            try {
-                countOfLoans = loanServiceImpl.count();
-            } catch (final ServiceException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+        try {
+            if (request.getParameter("idMembre") == null || request.getParameter("idLivre") == null)
+                throw new ServletException("Can't lend. Information Missing.");
+            else {
+                loanService.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
+                lendingList = loanService.getListCurrent();
+                request.setAttribute("LendingListJSP", lendingList);
+                request.setAttribute("show", "all");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
+                dispatcher.forward(request, response);
             }
+        } catch (ServiceException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        } catch (ServletException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
 
-            request.setAttribute("countOfLoansJSP", countOfLoans);
-
-            List<Lending> currentLoans = new ArrayList<>();
-
+            MemberService memberServiceImpl = MemberServiceImpl.getInstance();
+            List<Member> availableMemberList = new ArrayList<>();
             try {
-                currentLoans = loanServiceImpl.getListCurrent();
-            } catch (final ServiceException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+                availableMemberList = memberServiceImpl.getListMemberEmpruntPossible();
+            } catch (ServiceException ee) {
+                System.out.println(ee.getMessage());
+                ee.printStackTrace();
             }
+            request.setAttribute("availableMemberListJSP", availableMemberList);
 
-            request.setAttribute("currentLoansJSP", currentLoans);
+            BookService bookServiceImpl = BookServiceImpl.getInstance();
+            List<Book> availableBookList = new ArrayList<>();
+            try {
+                availableBookList = bookServiceImpl.getListDispo();
+            } catch (ServiceException ee) {
+                System.out.println(ee.getMessage());
+                ee.printStackTrace();
+            }
+            
+            request.setAttribute("availableBookListJSP", availableBookList);
+            request.setAttribute("errorMessage", e.getMessage());
 
-            final RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_add.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_add.jsp");
             dispatcher.forward(request, response);
         }
     }

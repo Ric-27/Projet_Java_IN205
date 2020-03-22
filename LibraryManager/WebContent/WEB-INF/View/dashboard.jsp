@@ -1,18 +1,9 @@
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.List" %>
-<%@ page import="com.app.model.Lending" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-  pageEncoding="UTF-8"%>
-  
-<%! private int countOfMembersJSP = -1;%>
-<% countOfMembersJSP = (int) request.getAttribute("countOfMembersJSP");%>
-<%! private int countOfBooksJSP = -1;%>
-<% countOfBooksJSP = (int) request.getAttribute("countOfBooksJSP");%>
-<%! private int countOfLoansJSP = -1;%>
-<% countOfLoansJSP = (int) request.getAttribute("countOfLoansJSP");%>
-<%! private List<Lending> currentLoansJSP = new ArrayList<>();%>
-<% currentLoansJSP = (List) request.getAttribute("currentLoansJSP"); %>
+pageEncoding="UTF-8"%>
+
+<%@ page import="com.app.model.Lending" %>
 
 <!DOCTYPE html>
 <html>
@@ -38,7 +29,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3><%=countOfMembersJSP%></h3> <!-- TODO : afficher le nombre de membres � la place de 12 -->
+              <h3><c:out value="${countOfMembersJSP}"/></h3> <!-- TODO : afficher le nombre de membres � la place de 12 -->
               <p>Membres</p>
             </div>
             <div class="icon">
@@ -50,7 +41,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-green">
             <div class="inner">
-              <h3><%=countOfBooksJSP%></h3> <!-- TODO : afficher le nombre de livres � la place de 27 -->
+              <h3><c:out value="${countOfBooksJSP}"/></h3> <!-- TODO : afficher le nombre de livres � la place de 27 -->
               <p>Livres</p>
             </div>
             <div class="icon">
@@ -62,7 +53,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3><%=countOfLoansJSP%></h3> <!-- TODO : afficher le nombre d'emprunts � la place de 1515 -->
+              <h3><c:out value="${countOfLoansJSP}"/></h3> <!-- TODO : afficher le nombre d'emprunts � la place de 1515 -->
               <p>Emprunts</p>
             </div>
             <div class="icon">
@@ -84,17 +75,17 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                  <% if(!currentLoansJSP.isEmpty()) {
-                    for(Lending loan : currentLoansJSP) { %>
+                  <c:if test="${! empty currentLoansJSP }">
+                    <c:forEach var="loan" items="${currentLoansJSP}">
                       <tr>
-                        <td><%= loan.getBook().getTitle() %>, <em><%= loan.getBook().getAuthor() %></em></td>
-                        <td><%= loan.getMember().getName() %> <%= loan.getMember().getLastname() %></td>
-                        <td><%= loan.getLendDate() %></td>
-                        <td><a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a></td>											
+                        <td><c:out value="${loan.getBook().getTitle()}" />, <em><c:out value="${loan.getBook().getAuthor()}" /></em></td>
+                        <td><c:out value="${loan.getMember().getName()}" /> <c:out value="${loan.getMember().getLastname()}" /></td>
+                        <td><c:out value="${loan.getLendDate()}" /></td>
+                        <td><a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a></td>													
                       </tr>
-                    <% }
-                  } %>
-                     <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
+                    </c:forEach>
+                  </c:if>
+                  <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>
           </div>

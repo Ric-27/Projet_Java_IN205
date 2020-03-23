@@ -4,10 +4,18 @@
   pageEncoding="UTF-8"%>
 
 <%@ page import="java.util.ArrayList"%>
-<%@ page import="model.*" %>
-<%@ page import="service.*" %>
-<%@ page import="service.impl.*" %>
+<%@ page import="com.app.model.Member" %>
+<%@ page import="com.app.model.Lending" %>
+<%@ page import="com.app.service.*" %>
+<%@ page import="com.app.service.impl.*" %>
 <%@ page import="java.util.List" %>
+
+<%! private Member member = new Member();%>
+<%! private MemberService memberService = MemberServiceImpl.getInstance();%>
+<% member = memberService.getById((int) request.getAttribute("memberId"));%>
+<%! private List<Lending> loanList = new ArrayList<Lending>();%>
+<% loanList = (List) request.getAttribute("loanList");%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,39 +40,39 @@
       <div class="container">
       <h5>Details du membre <c:out value="${memberId}"/></h5> <!-- TODO : remplacer 007 par l'id du membre -->
         <div class="row">
-	      <form action="/Projet-Ric-David/membre_details?memberId=${memberIdws}" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	      <form action="/Projet-Ric-David/membre_details?memberId='<%= member.getId() %>'" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row">
 	          <div class="input-field col s4">
-	            <input id="nom" type="text" value="nomDuMembre" name="nom"> <!-- TODO : remplacer nomDuMembre par le nom du membre -->
+	            <input id="nom" type="text" value='<%= member.getLastname() %>' name="nom"> <!-- TODO : remplacer nomDuMembre par le nom du membre -->
 	            <label for="nom">Nom</label>
 	          </div>
 	          <div class="input-field col s4">
-	            <input id="prenom" type="text" value="prenomDuMembre" name="prenom"> <!-- TODO : remplacer prenomDuMembre par le pr�nom du membre -->
+	            <input id="prenom" type="text" value='<%= member.getName() %>' name="prenom"> <!-- TODO : remplacer prenomDuMembre par le pr�nom du membre -->
 	            <label for="prenom">Prenom</label>
 	          </div>
 	          <div class="input-field col s4">
 	            <select name="abonnement" class="browser-default">
 	              <!-- TODO : faire en sorte que l'option correspondant � l'abonnement du membre soit s�lectionn�e par d�faut -->
 	              <!-- Pour cela, vous devez rajouter l'attribut selecter sur la balise <option> concern�e -->
-	              <option value="BASIC" ${(membre.abonnement == "BASIC") ? " selected" : ""}>Abonnement BASIC</option>
-	              <option value="PREMIUM" ${(membre.abonnement == "PREMIUM") ? " selected" : ""}>Abonnement PREMIUM</option>
-	              <option value="VIP" ${(membre.abonnement == "VIP") ? " selected" : ""}>Abonnement VIP</option>
+	              <option value="BASIC" <%= (member.getSubscription().toString() == "BASIC") ? "selected" : "" %>>Abonnement BASIC</option>
+	              <option value="PREMIUM" <%= (member.getSubscription().toString() == "PREMIUM") ? "selected" : "" %>>Abonnement PREMIUM</option>
+	              <option value="VIP" <%= (member.getSubscription().toString() == "VIP") ? "selected" : "" %>>Abonnement VIP</option>
 	            </select>
 	          </div>
 	        </div>
 	        <div class="row">
 	          <div class="input-field col s12">
-	            <input id="adresse" type="text" value="adresseDuMembre" name="adresse"> <!-- TODO : remplacer adresseDuMembre par l'adresse du membre -->
+	            <input id="adresse" type="text" value='<%= member.getAddress() %>' name="adresse"> <!-- TODO : remplacer adresseDuMembre par l'adresse du membre -->
 	            <label for="adresse">Adresse</label>
 	          </div>
 	        </div>
 	        <div class="row">
 	          <div class="input-field col s6">
-	            <input id="email" type="email" value="emailDuMembre" name="email"> <!-- TODO : remplacer emailDuMembre par l'email du membre -->
+	            <input id="email" type="email" value='<%= member.getEmail() %>' name="email"> <!-- TODO : remplacer emailDuMembre par l'email du membre -->
 	            <label for="email">E-mail</label>
 	          </div>
 	          <div class="input-field col s6">
-	            <input id="telephone" type="tel" value="telephoneDuMembre" name="telephone"> <!-- TODO : remplacer telephoneDuMembre par le t�l�phone du membre -->
+	            <input id="telephone" type="tel" value='<%= member.getPhone() %>' name="telephone"> <!-- TODO : remplacer telephoneDuMembre par le t�l�phone du membre -->
 	            <label for="telephone">Telephone</label>
 	          </div>
 	        </div>
@@ -104,7 +112,17 @@
                   </td>
                 </tr>
                 </c:forEach>
-
+				<% if (!loanList.isEmpty()) {
+					for (Lending loan : loanList) { %>
+					  <tr>
+						<td><%= loan.getBook().getTitle() %>, de <%= loan.getBook().getAuthor() %></td>
+						<td><%= loan.getLendDate() %></td>
+						<td>
+						  <a href='emprunt_return?id=<%= loan.getId() %>'><ion-icon class="table-item" name="log-in"></a>
+						</td>
+					  </tr>
+					<% }
+				  } %>
 				<!-- TODO : parcourir la liste des emprunts en cours pour ce membre et les afficher selon la structure d'exemple ci-dessus -->
               </tbody>
             </table>

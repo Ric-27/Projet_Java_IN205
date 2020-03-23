@@ -4,7 +4,7 @@ Ce projet consiste à créer une application web pour gérer les membres, les em
 
 ## Version de java
 
-Pour Exécuter les version de java et maven utilisées:
+Pour developer les projet les version de java et maven utilisées sont:
 
 ```bash
 Apache Maven 3.6.0

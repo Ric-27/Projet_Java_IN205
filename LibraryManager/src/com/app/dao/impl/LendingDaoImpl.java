@@ -77,7 +77,6 @@ public class LendingDaoImpl implements LendingDao {
             preparedStatement.setDate(4, null);
         preparedStatement.setInt(5, lending.getId());
         preparedStatement.executeUpdate();
-        //System.out.println("UPDATE LOAN: " + lending);
     }
 
     @Override
@@ -105,10 +104,10 @@ public class LendingDaoImpl implements LendingDao {
 
                 while(res.next()){
                     lendings.add(new Lending(res.getInt("id"),
-                                            memberDao.getById(res.getInt("idMembre")),
-                                            bookDao.getById(res.getInt("idLivre")),
-                                            res.getDate("dateEmprunt").toLocalDate(),
-                                            res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+                    memberDao.getById(res.getInt("idMembre")),
+                    bookDao.getById(res.getInt("idLivre")),
+                    res.getDate("dateEmprunt").toLocalDate(),
+                    res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
                 }
 
             
@@ -129,20 +128,17 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
-                                        //System.out.println("List of the current lendings : " + lendings);
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
     } catch (SQLException e) {
         throw new DaoException("Problems getting the current list of loans");
     }
     return lendings;
     }
-    
 
-    
     public ResultSet getByFunction(PreparedStatement preparedStatement,int idMembre) throws SQLException{
         
         preparedStatement.setInt(1, idMembre);
@@ -163,12 +159,11 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-            //System.out.println("List of the current loans of the member: "+ idMembre + ". Loans: " + lendings);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by member");
@@ -189,12 +184,11 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
-            }
-            //System.out.println("List of the current loans of the book: "+ idLivre + ". Loans: " + lendings);
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+            };
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by livre");
@@ -221,7 +215,6 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate());
             }
-            //System.out.println("Loan with the ID: "+ id + ". Loan:  " + lending);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by Id");
@@ -239,7 +232,6 @@ public class LendingDaoImpl implements LendingDao {
 
        if (result.next()) {
            lendings = result.getInt(1);
-           //System.out.println("LOANS QUANTITY: " + lendings);
        }
    } catch (SQLException e) {
        throw new DaoException("Problems counting the number of loans", e);

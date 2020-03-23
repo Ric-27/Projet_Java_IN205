@@ -33,8 +33,6 @@ public class MembreListServlet extends HttpServlet {
 			}
 			
 			request.setAttribute("memberListJSP", memberList);
-
-			// Submit gathered information th the appropriate .jsp:
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
 			dispatcher.forward(request, response);
 		}

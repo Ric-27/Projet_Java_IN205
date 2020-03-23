@@ -53,7 +53,7 @@
 	        </div>
 	      </form>
 	      
-	      <form action="/LibraryManager/livre_delete" method="get" class="col s12">
+	      <form action="/Projet-Ric-David/livre_delete" method="get" class="col s12">
 	        <input type="hidden" value="<c:out value="${bookJSP.getId()}"/>" name="id"> <!-- TODO : remplacer idDuLivre par l'id du livre -->
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit">Supprimer le livre
@@ -76,9 +76,11 @@
                 <c:if test="${! empty lendingListJSP}">
                     <c:forEach var="loan" items="${lendingListJSP}">
                       <tr>
-                        <td><c:out value="${loan.getMember().getName()}" /> <c:out value="${loan.getMember().getLastname()}" /></td>
-                        <td><c:out value="${loan.getLendDate()}" /></td>
-                        <td><a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a></td>													
+                        <td><c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></td>
+                        <td><c:out value="${loan.getLendDate()}"/></td>
+                        <td>
+                          <a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a>
+                        </td>													
                       </tr>
                     </c:forEach>
                   </c:if>

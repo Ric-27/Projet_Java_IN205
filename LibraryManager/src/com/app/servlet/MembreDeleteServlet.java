@@ -82,9 +82,9 @@ public class MembreDeleteServlet extends HttpServlet {
 			// Get the list of the current members:
 			try {
 				memberList = memberService.getList();
-			} catch (ServiceException serviceException) {
-				System.out.println(serviceException.getMessage());
-				serviceException.printStackTrace();
+			} catch (ServiceException ee) {
+				System.out.println(ee.getMessage());
+				ee.printStackTrace();
 			}
                 
 			request.setAttribute("memberListJSP", memberList);

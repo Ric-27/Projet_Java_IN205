@@ -65,8 +65,7 @@ public class LendingServiceImpl implements LendingService {
         List<Lending> lendings = new ArrayList<>();
         LendingDao lendingDao = LendingDaoImpl.getInstance();
         try {
-            lendings = lendingDao.getListCurrentByMembre(idBook);
-            
+            lendings = lendingDao.getListCurrentByLivre(idBook);
         } catch (DaoException e) {
             System.out.println(e.getMessage());
         }
@@ -146,8 +145,8 @@ public class LendingServiceImpl implements LendingService {
 			 lendings = lendingDao.getListCurrentByMembre(member.getId());
              return lendings.size() < member.getSubscription().getIndex()+1;		
 				
-		}  catch (DaoException e1) {
-			System.out.println(e1.getMessage());			
+		}  catch (DaoException e) {
+			System.out.println(e.getMessage());			
 		}
 		return false;
     }

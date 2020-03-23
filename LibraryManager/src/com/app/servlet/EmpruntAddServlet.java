@@ -62,9 +62,7 @@ public class EmpruntAddServlet extends HttpServlet {
                 lendingServiceImpl.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
                 lendingList = lendingServiceImpl.getListCurrent();
                 request.setAttribute("lendingListJSP", lendingList);
-                //request.setAttribute("show", "current");
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
-                dispatcher.forward(request, response);
+                response.sendRedirect("emprunt_list");
             }
         } catch (ServiceException e) {
             System.out.println(e.getMessage());

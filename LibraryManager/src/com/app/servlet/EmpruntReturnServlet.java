@@ -59,7 +59,6 @@ public class EmpruntReturnServlet extends HttpServlet {
 				lendingList = lendingServiceImpl.getListCurrent();
 				
 				request.setAttribute("lendingListJSP", lendingList);
-				//request.setAttribute("show", "all");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
 				dispatcher.forward(request, response);
 			}

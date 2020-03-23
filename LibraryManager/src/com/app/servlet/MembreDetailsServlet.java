@@ -83,9 +83,9 @@ public class MembreDetailsServlet extends HttpServlet {
 
 			try {
 				request.setAttribute("loanList", loanService.getListCurrentByMember(Integer.parseInt(request.getParameter("memberId"))));
-			} catch (ServiceException serviceException) {
-				System.out.println(serviceException.getMessage());
-				serviceException.printStackTrace();
+			} catch (ServiceException ee) {
+				System.out.println(ee.getMessage());
+				ee.printStackTrace();
 			}
 			
 			request.setAttribute("memberId", Integer.parseInt(request.getParameter("memberId")));

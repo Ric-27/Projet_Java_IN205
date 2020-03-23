@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.app.exception.*;
 import com.app.service.*;
@@ -29,6 +31,7 @@ public class LivreAddServlet extends HttpServlet {
 		BookService bookServiceImpl = BookServiceImpl.getInstance();
 		Book book = new Book();
 		LendingService lendingServiceImpl = LendingServiceImpl.getInstance();	
+		List<Lending> lendingList = new ArrayList<>();
 		
 		try {
 			if (request.getParameter("titre") == null) {
@@ -36,10 +39,11 @@ public class LivreAddServlet extends HttpServlet {
 			} else {
 				int bookId = bookServiceImpl.create(request.getParameter("titre"), request.getParameter("auteur"), request.getParameter("isbn"));
 				book = bookServiceImpl.getById(bookId);
+				lendingList = lendingServiceImpl.getListCurrentByBook(book.getId());
+
 				request.setAttribute("bookJSP", book);
-				request.setAttribute("lendingListJSP", lendingServiceImpl.getListCurrentByBook(bookId));
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/livre_details.jsp");
-				dispatcher.forward(request, response);
+				request.setAttribute("lendingListJSP", lendingList);
+				response.sendRedirect("livre_details?id=" + book.getId());
 			}
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());

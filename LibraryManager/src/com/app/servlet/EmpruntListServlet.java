@@ -32,10 +32,8 @@ public class EmpruntListServlet extends HttpServlet {
 			try {
                 if (show.equals("current")) {
                     loanList = loanServiceImpl.getListCurrent();
-                    //request.setAttribute("show", "all");
                 } else {
                     loanList = loanServiceImpl.getList();
-                    //request.setAttribute("show", "current");
                 }
 			} catch (ServiceException e) {
 				System.out.println(e.getMessage());

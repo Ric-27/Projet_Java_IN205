@@ -27,18 +27,20 @@
                         <th>Titre</th>
                         <th>Auteur</th>
                         <th>Code ISBN 13</th>
-                        <th>Détails</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
-                
-                    <tr>
-                        <td>Titre du livre</td>
-                        <td>Nom de l'auteur</td>
-                        <td>ISBN du livre</td>
-                        <td class="center"><a href="livre_details?id=idDuLivre"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
-                    </tr>
-                    
+                  <c:if test="${! empty bookListJSP}">
+                    <c:forEach var="book" items="${bookListJSP}">
+                      <tr>
+                        <td><c:out value="${book.getTitle()}" /></td>
+                        <td><c:out value="${book.getAuthor()}" /></td>
+                        <td><c:out value="${book.getIsbn()}" /></td>
+                        <td class="center"><a href="livre_details?id=<c:out value="${book.getId()}" />"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                      </tr>
+                    </c:forEach>
+                  </c:if>
                     <!-- TODO : parcourir la liste des livres et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>

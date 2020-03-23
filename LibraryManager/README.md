@@ -2,7 +2,7 @@
 
 Ce projet consiste à créer une application web pour gérer les membres, les emprunts et les livres d'une bibliothèque.
 
-##Version de java
+## Version de java
 
 Pour Exécuter les version de java et maven utilisées:
 
@@ -14,7 +14,8 @@ javac 13.0.2
 
 Mais le program fonctionne avec java 8 ou plus.
 
-##Usage
+## Usage
+
 Pour exécuter il faut être dans le dossier LibraryManager et exécuter le command:
 
 ```bash

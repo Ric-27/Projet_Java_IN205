@@ -24,6 +24,8 @@ public class MembreDetailsServlet extends HttpServlet {
             // Set default value of the "id" option:
             int id = -1;
 			// Change it while receiving another value:
+
+
             if (request.getParameter("memberId") != null)
 				id = Integer.parseInt(request.getParameter("memberId"));
 

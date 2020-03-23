@@ -12,6 +12,7 @@ import com.app.exception.*;
 import com.app.service.*;
 import com.app.service.impl.*;
 import com.app.model.*;
+import com.app.model.Member.Subscription;
 
 public class MembreAddServlet extends HttpServlet {
     @Override
@@ -36,9 +37,10 @@ public class MembreAddServlet extends HttpServlet {
 												request.getParameter("email"), 
 												request.getParameter("telephone"));
 
-			Member member = memberService.getById(memberId);
-
-			request.setAttribute("member", member);
+			//Member member = memberService.getById(memberId);
+			System.out.println(memberId);
+			
+			request.setAttribute("memberId", memberId);
 			request.setAttribute("loanList", lendingService.getListCurrentByMember(memberId));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_details.jsp");
 			dispatcher.forward(request, response);

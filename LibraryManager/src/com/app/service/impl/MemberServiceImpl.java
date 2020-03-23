@@ -73,6 +73,7 @@ public class MemberServiceImpl implements MemberService {
             throw new ServiceException("the name and/or lastname cannot be empty");
         } else {
             try {
+                System.out.println("Im in create member service");
                 id = memberDaoImpl.create(nom.toUpperCase(), prenom, adresse, email, telephone);
             } catch (DaoException e) {
                 System.out.println(e.getMessage());

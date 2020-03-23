@@ -16,26 +16,25 @@ import com.app.service.impl.*;
 import com.app.model.*;
 
 public class MembreListServlet extends HttpServlet {
-    @Override
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getServletPath();
 		
 		if (action.equals("/membre_list")) {
-			// Get the list of members:
-			MemberService memberService = MemberServiceImpl.getInstance();
+			MemberService memberServiceImpl = MemberServiceImpl.getInstance();
 			List<Member> memberList = new ArrayList<>();
 			
 			try {                
-                memberList = memberService.getList();
+                memberList = memberServiceImpl.getList();
 			} catch (ServiceException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
 			
 			request.setAttribute("memberListJSP", memberList);
+			
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
 			dispatcher.forward(request, response);
 		}
     }
-
 }

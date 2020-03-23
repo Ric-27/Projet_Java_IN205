@@ -16,82 +16,65 @@ import com.app.service.impl.*;
 import com.app.model.*;
 
 public class MembreDeleteServlet extends HttpServlet {
-    @Override
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getServletPath();
 		
 		if (action.equals("/membre_delete")) {
-            // Set default value of the "id" option:
             int id = -1;
-			// Change it while receiving another value:
-            if (request.getParameter("memberId") != null)
-                id = Integer.parseInt(request.getParameter("memberId"));
-				
-			// Get the list of all members:
-			MemberService memberService = MemberServiceImpl.getInstance();
-			List<Member> memberList = new ArrayList<>();
+            if (request.getParameter("id") != null)
+                id = Integer.parseInt(request.getParameter("id"));
+
+			MemberService memberServiceImpl = MemberServiceImpl.getInstance();
+			Member member = new Member();
 			
 			try {
-                memberList = memberService.getList();
+                member = memberServiceImpl.getById(Integer.parseInt(request.getParameter("id")));
                 if (id > -1)
-                    request.setAttribute("memberId", id);
+                    request.setAttribute("id", id);
 			} catch (ServiceException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
-			}
-			
-			request.setAttribute("memberList", memberList);
-
-			// Submit gathered information th the appropriate .jsp:
+			}			
+			request.setAttribute("memberJSP", member);
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_delete.jsp");
 			dispatcher.forward(request, response);
 		}
     }
-	@Override
+
+    @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		MemberService memberService = MemberServiceImpl.getInstance();
-        ServletException se = new ServletException("Error. No member has been chosen.");
+		MemberService memberServiceImpl = MemberServiceImpl.getInstance();		
+		Member member = new Member();
 		List<Member> memberList = new ArrayList<>();
 		
         try {
-            if (request.getParameter("memberId") == ""){
-
-				memberList = memberService.getList();
-
-				request.setAttribute("memberListJSP", memberList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
-				dispatcher.forward(request, response);
-			}
-            else {
-				memberService.delete(Integer.parseInt(request.getParameter("memberId")));
+			if (request.getParameter("id") == "" || request.getParameter("id") == null) {
+				throw new ServletException("Error. No Member Chosen");
+			} else {
+				memberServiceImpl.delete(Integer.parseInt(request.getParameter("id")));
 			
-				// Get the list of the current members :
-				memberList = memberService.getList();
-                
+				memberList = memberServiceImpl.getList();
 				request.setAttribute("memberListJSP", memberList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
-				dispatcher.forward(request, response);
-			}
+				
+				response.sendRedirect("membre_list");
+			}			
 		} catch (ServiceException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 		} catch (ServletException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-
-			// Get the list of the current members:
 			try {
-				memberList = memberService.getList();
-			} catch (ServiceException ee) {
-				System.out.println(ee.getMessage());
-				ee.printStackTrace();
+				member = memberServiceImpl.getById(Integer.parseInt(request.getParameter("id")));
+			} catch (ServiceException serviceException) {
+				System.out.println(serviceException.getMessage());
+				serviceException.printStackTrace();
 			}
-                
-			request.setAttribute("memberListJSP", memberList);
+			request.setAttribute("memberJSP", member);
 			request.setAttribute("errorMessage", e.getMessage());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_delete.jsp");
 			dispatcher.forward(request, response);
 		}
 	}
-
 }

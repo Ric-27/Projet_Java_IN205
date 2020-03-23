@@ -36,7 +36,7 @@ public class Member {
 		this.subscription = subs;
 	}
 	public Member(Integer id, String lastname, String name, String address, String email, String phone, Subscription subs) {
-		this(name,lastname,address,email,phone,subs);
+		this(lastname,name,address,email,phone,subs);
 		this.id = id;
 	}
 	

@@ -20,11 +20,11 @@
         <h1 class="page-announce-text valign">Fiche membre</h1>
 	  </div>
 	  
-	  <% if (request.getAttribute("errorMessage") != null) { %>
+	  <c:if test="${! empty errorMessage}">
         <div>
-          <p align="center"><%= (String) request.getAttribute("errorMessage") %></p>
+          <p align="center"><c:out value="${errorMessage}"/></p>
         </div>
-      <% } %>
+      </c:if>
 
       <div class="row">
       <div class="container">

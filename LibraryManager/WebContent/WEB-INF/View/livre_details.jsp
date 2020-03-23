@@ -19,7 +19,7 @@
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Fiche livre</h1>
       </div>
-
+        
       <c:if test="${! empty errorMessage}">
         <div>
           <p align="center"><c:out value="${errorMessage}"/></p>

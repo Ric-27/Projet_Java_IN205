@@ -1,10 +1,4 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-
-<%@ page import="com.app.model.Lending" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +19,13 @@ pageEncoding="UTF-8"%>
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Tableau de bord</h1>
       </div>
+
+      <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+      
       <div class="row">
         <div class="col l4 s6">
           <div class="small-box bg-aqua">

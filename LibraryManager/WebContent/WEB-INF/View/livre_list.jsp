@@ -37,7 +37,7 @@
                         <td><c:out value="${book.getTitle()}" /></td>
                         <td><c:out value="${book.getAuthor()}" /></td>
                         <td><c:out value="${book.getIsbn()}" /></td>
-                        <td class="center"><a href="livre_details?id=<c:out value="${book.getId()}" />"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                        <td class="center"><a href="livre_details?id=<c:out value="${book.getId()}"/>"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
                       </tr>
                     </c:forEach>
                   </c:if>

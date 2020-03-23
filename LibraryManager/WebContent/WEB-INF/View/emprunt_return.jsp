@@ -19,6 +19,13 @@
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Retour d'un livre</h1>
       </div>
+
+      <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+      
       <div class="row">
       <div class="container">
         <h5>Selectionnez le livre a retourner</h5>

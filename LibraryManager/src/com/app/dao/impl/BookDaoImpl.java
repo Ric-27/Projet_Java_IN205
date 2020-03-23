@@ -73,8 +73,8 @@ public class BookDaoImpl implements BookDao{
 
 	public ResultSet prepareCreateStatement(PreparedStatement preparedStatement, String title, String author, String isbn) throws SQLException{
 		ResultSet result;
-		preparedStatement.setString(1,author);
-		preparedStatement.setString(2,title);
+		preparedStatement.setString(1,title);
+		preparedStatement.setString(2,author);
 		preparedStatement.setString(3,isbn);
 		preparedStatement.executeUpdate();
 		result = preparedStatement.getGeneratedKeys();
@@ -85,7 +85,7 @@ public class BookDaoImpl implements BookDao{
 	public int create(String titre, String auteur, String isbn) throws DaoException{
 		int id = -1;
 		try (Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY,Statement.NO_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY,Statement.RETURN_GENERATED_KEYS);
             ResultSet result = prepareCreateStatement(preparedStatement, titre, auteur, isbn);) 
 		{
             if (result.next()) {
@@ -98,8 +98,8 @@ public class BookDaoImpl implements BookDao{
 	}
 
 	public void prepareUpdateStatement(PreparedStatement preparedStatement, String title, String author, String isbn, int id) throws SQLException{
-		preparedStatement.setString(1,author);
-		preparedStatement.setString(2,title);
+		preparedStatement.setString(1,title);
+		preparedStatement.setString(2,author);
 		preparedStatement.setString(3,isbn);
 		preparedStatement.setInt(4,id);
 		preparedStatement.executeUpdate();

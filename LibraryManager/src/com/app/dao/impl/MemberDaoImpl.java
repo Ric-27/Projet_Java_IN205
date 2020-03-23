@@ -40,6 +40,7 @@ public class MemberDaoImpl implements MemberDao {
             ResultSet result = preparedStatement.executeQuery();) 
 		{
 			while(result.next()){
+
 				members.add(new Member(result.getInt("id"),result.getString("nom"),result.getString("prenom"),result.getString("adresse"),result.getString("email"),result.getString("telephone"),Member.Subscription.valueOf(result.getString("abonnement"))));
 			}
         } catch (SQLException e) {
@@ -92,7 +93,7 @@ public class MemberDaoImpl implements MemberDao {
 	public int create(String nom, String prenom, String adresse, String email, String telephone) throws DaoException{
 		int id = -1;
 		try (Connection connection = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY,Statement.NO_GENERATED_KEYS);
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY,Statement.RETURN_GENERATED_KEYS);
             ResultSet result = prepareCreateStatement(preparedStatement, nom, prenom, adresse, email, telephone);) 
 		{
             if (result.next()) {

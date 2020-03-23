@@ -19,11 +19,18 @@
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Tableau de bord</h1>
       </div>
+
+      <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+      
       <div class="row">
         <div class="col l4 s6">
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>12</h3> <!-- TODO : afficher le nombre de membres à la place de 12 -->
+              <h3><c:out value="${countOfMembersJSP}"/></h3> <!-- TODO : afficher le nombre de membres ï¿½ la place de 12 -->
               <p>Membres</p>
             </div>
             <div class="icon">
@@ -35,7 +42,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>27</h3> <!-- TODO : afficher le nombre de livres à la place de 27 -->
+              <h3><c:out value="${countOfBooksJSP}"/></h3> <!-- TODO : afficher le nombre de livres ï¿½ la place de 27 -->
               <p>Livres</p>
             </div>
             <div class="icon">
@@ -47,7 +54,7 @@
         <div class="col l4 s6">
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>1515</h3> <!-- TODO : afficher le nombre d'emprunts à la place de 1515 -->
+              <h3><c:out value="${countOfLoansJSP}"/></h3> <!-- TODO : afficher le nombre d'emprunts ï¿½ la place de 1515 -->
               <p>Emprunts</p>
             </div>
             <div class="icon">
@@ -69,17 +76,17 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                
-                    <tr>
-                        <td>Titre du livre, <em>de Nom de l'auteur</em></td>
-                        <td>Prénom et nom du membre emprunteur</td>
-                        <td>Date de l'emprunt</td>
-                        <td>
-                            <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
-                        </td>
-                    </tr>
-                    
-                     <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
+                  <c:if test="${! empty currentLoansJSP}">
+                    <c:forEach var="loan" items="${currentLoansJSP}">
+                      <tr>
+                        <td><c:out value="${loan.getBook().getTitle()}" />, <em><c:out value="${loan.getBook().getAuthor()}" /></em></td>
+                        <td><c:out value="${loan.getMember().getName()}" /> <c:out value="${loan.getMember().getLastname()}" /></td>
+                        <td><c:out value="${loan.getLendDate()}" /></td>
+                        <td><a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a></td>													
+                      </tr>
+                    </c:forEach>
+                  </c:if>
+                  <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
                 </tbody>
             </table>
           </div>

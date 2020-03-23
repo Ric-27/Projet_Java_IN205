@@ -101,12 +101,8 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void delete(int id) throws ServiceException{
         MemberDao memberDaoImpl = MemberDaoImpl.getInstance();
-        LendingService loanServiceImpl = LendingServiceImpl.getInstance();
         try {
             memberDaoImpl.delete(id);
-            List<Lending> loanList = loanServiceImpl.getListCurrentByMember(id);
-			for (Lending loan : loanList)
-				loanServiceImpl.returnBook(loan.getBook().getId());
         } catch (DaoException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

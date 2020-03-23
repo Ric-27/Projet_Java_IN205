@@ -11,11 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.app.dao.*;
 import com.app.exception.*;
-import com.app.model.Lending;
+import com.app.model.*;
 import com.app.persistence.ConnectionManager;
 
 public class LendingDaoImpl implements LendingDao {
@@ -29,11 +27,11 @@ public class LendingDaoImpl implements LendingDao {
 		return instance;
     }
     
-    private static final String SELECT_ALL_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre ORDER BY dateRetour DESC;";
-	private static final String SELECT_NOT_RETURNED_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL;";
-	private static final String SELECT_NOT_RETURNED_MEM_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL AND membre.id = ?;";
-	private static final String SELECT_NOT_RETURNED_LIV_QUERY = "SELECT e.id AS id, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE dateRetour IS NULL AND livre.id = ?;";
-	private static final String SELECT_ONE_QUERY = "SELECT e.id AS idEmprunt, idMembre, nom, prenom, adresse, email, telephone, abonnement, idLivre, titre, auteur, isbn, dateEmprunt, dateRetour FROM emprunt AS e INNER JOIN membre ON membre.id = e.idMembre INNER JOIN livre ON livre.id = e.idLivre WHERE e.id = ?;";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM emprunt;";
+	private static final String SELECT_NOT_RETURNED_QUERY = "SELECT * FROM emprunt WHERE emprunt.dateRetour IS NULL;";
+	private static final String SELECT_NOT_RETURNED_MEM_QUERY = "SELECT * FROM  Emprunt WHERE dateRetour IS NULL AND idMembre = ?;";
+	private static final String SELECT_NOT_RETURNED_LIV_QUERY = "SELECT * FROM emprunt WHERE dateRetour IS NULL AND idLivre = ?;";
+	private static final String SELECT_ONE_QUERY = "SELECT * FROM emprunt WHERE id = ?;";
 	private static final String CREATE_QUERY = "INSERT INTO Emprunt (idMembre, idLivre, dateEmprunt, dateRetour) VALUES (?, ?, ?, ?);";
 	private static final String UPDATE_QUERY = "UPDATE Emprunt SET idMembre=?, idLivre=?,dateEmprunt=?, dateRetour=? WHERE id=?;";
     private static final String COUNT_QUERY = "SELECT COUNT(*) AS count FROM emprunt WHERE idMembre IN (SELECT id FROM membre) and idLivre IN (SELECT id FROM livre);";
@@ -44,6 +42,7 @@ public class LendingDaoImpl implements LendingDao {
         preparedStatement.setInt(2, idLivre);
         preparedStatement.setDate(3, Date.valueOf(lendingDate));
         preparedStatement.setDate(4, null);
+		preparedStatement.executeUpdate();
         ResultSet res = preparedStatement.getGeneratedKeys();
         return res;
     }
@@ -54,15 +53,12 @@ public class LendingDaoImpl implements LendingDao {
             PreparedStatement preparedStatement = connection.prepareStatement(CREATE_QUERY, Statement.RETURN_GENERATED_KEYS);
             ResultSet result = createStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
             {
-                preparedStatement.setInt(1, idMembre);
                 
                 if (result.next()){
-
                     MemberDao memberDao = MemberDaoImpl.getInstance();
                     BookDao bookDao = BookDaoImpl.getInstance();
                     Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
 
-                    System.out.println("CREATE LOAN: " + lending);
                 }
 
         }catch(SQLException e){
@@ -71,6 +67,8 @@ public class LendingDaoImpl implements LendingDao {
     }
 
     public void updateStatementFunction(PreparedStatement preparedStatement, Lending lending) throws SQLException{
+
+        preparedStatement.setInt(1, lending.getMember().getId());
         preparedStatement.setInt(2, lending.getBook().getId());
         preparedStatement.setDate(3, Date.valueOf(lending.getLendDate()));
         if (lending.getReturnDate() != null)
@@ -79,7 +77,6 @@ public class LendingDaoImpl implements LendingDao {
             preparedStatement.setDate(4, null);
         preparedStatement.setInt(5, lending.getId());
         preparedStatement.executeUpdate();
-        System.out.println("UPDATE LOAN: " + lending);
     }
 
     @Override
@@ -89,7 +86,7 @@ public class LendingDaoImpl implements LendingDao {
             ){
                 updateStatementFunction(preparedStatement, lending);
             }catch(SQLException e){
-                throw new DaoException("Problems updating the loan :" + lending);
+                throw new DaoException("Dao: Problems updating the loan :" + lending);
             }
 
     }
@@ -103,16 +100,16 @@ public class LendingDaoImpl implements LendingDao {
             ResultSet res = preparedStatement.executeQuery();){
                 MemberDao memberDao= MemberDaoImpl.getInstance();
                 BookDao bookDao = BookDaoImpl.getInstance();
+                
 
                 while(res.next()){
                     lendings.add(new Lending(res.getInt("id"),
-                                            memberDao.getById(res.getInt("idMembre")),
-                                            bookDao.getById(res.getInt("idLivre")),
-                                            res.getDate("dateEmprunt").toLocalDate(),
-                                            res.getDate("dateReturn").toLocalDate()));
+                    memberDao.getById(res.getInt("idMembre")),
+                    bookDao.getById(res.getInt("idLivre")),
+                    res.getDate("dateEmprunt").toLocalDate(),
+                    res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
                 }
 
-                System.out.println("List of all the loans: " + lendings);
             
         } catch (SQLException e) {
             throw new DaoException("Problems getting the general list of loans");
@@ -131,20 +128,17 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-        System.out.println("List of the current lendings : " + lendings);
     } catch (SQLException e) {
         throw new DaoException("Problems getting the current list of loans");
     }
     return lendings;
     }
-    
 
-    
     public ResultSet getByFunction(PreparedStatement preparedStatement,int idMembre) throws SQLException{
         
         preparedStatement.setInt(1, idMembre);
@@ -165,12 +159,11 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
             }
-            System.out.println("List of the current loans of the member: "+ idMembre + ". Loans: " + lendings);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by member");
@@ -191,12 +184,11 @@ public class LendingDaoImpl implements LendingDao {
 
             while(res.next()){
                 lendings.add(new Lending(res.getInt("id"),
-                                        memberDao.getById(res.getInt("idMembre")),
-                                        bookDao.getById(res.getInt("idLivre")),
-                                        res.getDate("dateEmprunt").toLocalDate(),
-                                        res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
-            }
-            System.out.println("List of the current loans of the book: "+ idLivre + ". Loans: " + lendings);
+                memberDao.getById(res.getInt("idMembre")),
+                bookDao.getById(res.getInt("idLivre")),
+                res.getDate("dateEmprunt").toLocalDate(),
+                res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate()));
+            };
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by livre");
@@ -210,7 +202,7 @@ public class LendingDaoImpl implements LendingDao {
         Lending lending = new Lending();
 
         try (Connection connection = ConnectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NOT_RETURNED_MEM_QUERY);
+        PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ONE_QUERY);
         ResultSet res = getByFunction(preparedStatement, id)){
 
             MemberDao memberDao= MemberDaoImpl.getInstance();
@@ -223,7 +215,6 @@ public class LendingDaoImpl implements LendingDao {
                                         res.getDate("dateEmprunt").toLocalDate(),
                                         res.getDate("dateRetour") == null ? null : res.getDate("dateRetour").toLocalDate());
             }
-            System.out.println("Loan with the ID: "+ id + ". Loan:  " + lending);
         
         } catch (SQLException e) {
             throw new DaoException("Problems getting the list by Id");
@@ -241,7 +232,6 @@ public class LendingDaoImpl implements LendingDao {
 
        if (result.next()) {
            lendings = result.getInt(1);
-           System.out.println("LOANS QUANTITY: " + lendings);
        }
    } catch (SQLException e) {
        throw new DaoException("Problems counting the number of loans", e);

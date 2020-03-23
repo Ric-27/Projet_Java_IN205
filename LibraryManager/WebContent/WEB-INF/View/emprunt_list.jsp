@@ -19,6 +19,13 @@
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Liste des emprunts</h1>
       </div>
+
+      <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+
       <div class="row">
         <div class="container">
 	        <div class="col s12">
@@ -32,16 +39,23 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                
-                    <tr>
-                        <td>Titre du livre, <em>de Nom de l'auteur</em></td>
-                        <td>Prénom et nom du membre emprunteur</td>
-                        <td>Date de l'emprunt</td>
-                        <td>
-                            <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
-                        </td>
-                    </tr>
-
+                    <c:if test="${! empty lendingListJSP}">
+                      <c:forEach var="loan" items="${lendingListJSP}">
+                        <tr>
+                          <td><c:out value="${loan.getBook().getTitle()}" />, <em><c:out value="${loan.getBook().getAuthor()}" /></em></td>
+                          <td><c:out value="${loan.getMember().getName()}" /> <c:out value="${loan.getMember().getLastname()}" /></td>
+                          <td><c:out value="${loan.getLendDate()}" /></td>
+                          <td>
+                            <c:if test="${loan.getReturnDate() == null}">
+                              <a href="emprunt_return?id=${loan.getId()}">edit<ion-icon class="table-item" name="log-in"></a>
+                            </c:if>
+                            <c:if test="${loan.getReturnDate() != null}">
+                              <c:out value="${loan.getReturnDate()}" />
+                            </c:if>
+                          </td>
+                        </tr>
+                      </c:forEach>
+                    </c:if>
 					 <!-- TODO : parcourir la liste des emprunts en cours et les afficher selon la structure d'exemple ci-dessus -->
 					 <!-- TODO : dans le champ "retour", afficher la date de retour si elle existe, et un lien vers la page de retour si la date est vide (comme dans l'exemple ci-dessus) -->
                 </tbody>

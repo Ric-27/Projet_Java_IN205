@@ -100,10 +100,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public void delete(int id) throws ServiceException{
         BookDao bookDaoImpl = BookDaoImpl.getInstance();
-        LendingService loanServiceImpl = LendingServiceImpl.getInstance();
         try {
             bookDaoImpl.delete(id);
-            loanServiceImpl.returnBook(id);
         } catch (DaoException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();

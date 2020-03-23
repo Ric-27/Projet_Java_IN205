@@ -18,12 +18,19 @@
       <div class="page-announce valign-wrapper">
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Fiche membre</h1>
-      </div>
+	  </div>
+	  
+	  <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+
       <div class="row">
       <div class="container">
-      <h5>Création d'un nouveau membre</h5>
+      <h5>Creation d'un nouveau membre</h5>
         <div class="row">
-	      <form action="/LibraryManager/membre_add" method="post" class="col s12">
+	      <form action="/Projet-Ric-David/membre_add" method="post" class="col s12">
 	        <div class="row">
 	          <div class="input-field col s6">
 	            <input id="nom" type="text" name="nom">
@@ -31,7 +38,7 @@
 	          </div>
 	          <div class="input-field col s6">
 	            <input id="prenom" type="text" name="prenom">
-	            <label for="prenom">Prénom</label>
+	            <label for="prenom">Prenom</label>
 	          </div>
 	        </div>
 	        <div class="row">
@@ -47,7 +54,7 @@
 	          </div>
 	          <div class="input-field col s6">
 	            <input id="telephone" type="tel" name="telephone">
-	            <label for="telephone">Téléphone</label>
+	            <label for="telephone">Telephone</label>
 	          </div>
 	        </div>
 	        <div class="row center">

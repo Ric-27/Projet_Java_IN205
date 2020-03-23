@@ -25,24 +25,26 @@
             <thead>
               <tr>
                 <th>Nom</th>
-                <th>Prénom</th>
+                <th>Prenom</th>
                 <th class="hide-on-small-only">Adresse</th>
                 <th class="hide-on-small-only">E-mail</th>
-                <th class="hide-on-small-only">Téléphone</th>
-                <th>Détails</th>
+                <th class="hide-on-small-only">Telephone</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
-
-              <tr>
-                <td>Nom du membre</td>
-                <td>Prénom du membre</td>
-                <td class="hide-on-small-only">Adresse du membre</td>
-                <td class="hide-on-small-only">E-mail du membre</td>
-                <td class="hide-on-small-only">Téléphone du membre</td>
-                <td class="center"><a href="membre_details?id=idDuMembre"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
-              </tr>
-
+              <c:if test="${! empty memberListJSP }">
+                <c:forEach var="member" items="${memberListJSP}">
+                  <tr>
+                    <td><c:out value="${member.getLastname()}"/></td>
+                    <td><c:out value="${member.getName()}"/></td>
+                    <td><c:out value="${member.getAddress()}"/></td>
+                    <td><c:out value="${member.getEmail()}"/></td>
+                    <td><c:out value="${member.getPhone()}"/></td>
+                    <td class="center"><a href="membre_details?id=<c:out value="${member.getId()}"/>"><ion-icon class="details" name="information-circle-outline"></ion-icon></a></td>
+                  </tr>
+                </c:forEach>
+              </c:if>
               <!-- TODO : parcourir la liste des membres et les afficher selon la structure d'exemple ci-dessus -->
             </tbody>
           </table>

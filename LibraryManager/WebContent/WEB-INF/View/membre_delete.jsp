@@ -21,16 +21,16 @@
       </div>
       <div class="row">
       <div class="container">
-      <h5>Suppression du membre n°312</h5> <!-- TODO : remplacer 312 par l'id du membre -->
+      <h5>Suppression du membre avec l'id: <c:out value="${memberJSP.getId()}"/></h5> <!-- TODO : remplacer 312 par l'id du membre -->
         <div class="row">
-          <p>Êtes-vous sûr de vouloir supprimer la fiche de prenomDuMembre nomDuMembre ?</p> <!-- TODO : remplacer prenomDuMembre et nomDuMembre par les valeurs correspondantes -->
-	      <form action="/LibraryManager/membre_delete" method="post" class="col s12">
-            <input type="hidden" value="idDuMembre" name="id"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+          <p>etes-vous sur de vouloir supprimer <c:out value="${memberJSP.getName()}"/> <c:out value="${memberJSP.getLastname()}"/>?</p> <!-- TODO : remplacer prenomDuMembre et nomDuMembre par les valeurs correspondantes -->
+	      <form action="membre_delete" method="post" class="col s12">
+            <input type="hidden" value="<c:out value="${memberJSP.getId()}"/>" name="id"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit" name="action">Supprimer
 	            <i class="material-icons right">delete</i>
 	          </button>
-	          <a class="btn waves-effect waves-light orange" href="/LibraryManager/membre_details?id=idDuMembre">Annuler</a> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	          <a class="btn waves-effect waves-light orange" href="membre_details?id=<c:out value="${memberJSP.getId()}"/>">Annuler</a>  <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        </div>
 	      </form>
 	    </div>	    

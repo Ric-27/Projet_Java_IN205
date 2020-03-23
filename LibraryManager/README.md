@@ -1,6 +1,9 @@
 # Application de gestion d’une bibliothèque
 
 Ce projet consiste à créer une application web pour gérer les membres, les emprunts et les livres d'une bibliothèque.
+Projet Final pour IN205 Applications Mobiles
+ENSTA
+Mars 2020
 
 ## Version de java
 
@@ -30,3 +33,8 @@ mvn clean install
 ```
 
 Et finalement monter le dossier sur le serveur Tomcat et ouvrir-le dans votre navigateur internet.
+
+## Auteurs
+
+David VELASQUEZ OSPINA
+Ricardo RICO URIBE

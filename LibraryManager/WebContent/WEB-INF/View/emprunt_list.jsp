@@ -22,7 +22,6 @@
       <div class="row">
         <div class="container">
 	        <div class="col s12">
-            <a href='emprunt_list?show=${show}'>Show <c:out value="${show}"/> loans</a>
 	          <table class="striped">
                 <thead>
                     <tr>
@@ -33,8 +32,8 @@
                     </tr>
                 </thead>
                 <tbody id="results">
-                    <c:if test="${! empty LendingListJSP}">
-                      <c:forEach var="loan" items="${LendingListJSP}">
+                    <c:if test="${! empty lendingListJSP}">
+                      <c:forEach var="loan" items="${lendingListJSP}">
                         <tr>
                           <td><c:out value="${loan.getBook().getTitle()}" />, <em><c:out value="${loan.getBook().getAuthor()}" /></em></td>
                           <td><c:out value="${loan.getMember().getName()}" /> <c:out value="${loan.getMember().getLastname()}" /></td>

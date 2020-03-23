@@ -38,7 +38,7 @@ public class EmpruntReturnServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			request.setAttribute("loanListJSP", loanList);
+			request.setAttribute("lendingListJSP", loanList);
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_return.jsp");
 			dispatcher.forward(request, response);
@@ -48,7 +48,7 @@ public class EmpruntReturnServlet extends HttpServlet {
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		LendingService lendingServiceImpl = LendingServiceImpl.getInstance();
-		List<Lending> loanList = new ArrayList<>();
+		List<Lending> lendingList = new ArrayList<>();
 		
         try {
             if (request.getParameter("id") == null)
@@ -56,10 +56,10 @@ public class EmpruntReturnServlet extends HttpServlet {
             else {
 				lendingServiceImpl.returnBook(Integer.parseInt(request.getParameter("id")));
 			
-				loanList = lendingServiceImpl.getListCurrent();
+				lendingList = lendingServiceImpl.getListCurrent();
 				
-				request.setAttribute("loanListJSP", loanList);
-				request.setAttribute("show", "current");
+				request.setAttribute("lendingListJSP", lendingList);
+				//request.setAttribute("show", "all");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
 				dispatcher.forward(request, response);
 			}
@@ -68,13 +68,13 @@ public class EmpruntReturnServlet extends HttpServlet {
 			e.printStackTrace();
 
 			try {
-				loanList = lendingServiceImpl.getListCurrent();
+				lendingList = lendingServiceImpl.getListCurrent();
 			} catch (ServiceException serviceException) {
 				System.out.println(serviceException.getMessage());
 				serviceException.printStackTrace();
 			}
 
-			request.setAttribute("loanListJSP", loanList);
+			request.setAttribute("lendingListJSP", lendingList);
 			request.setAttribute("errorMessage", e.getMessage());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_return.jsp");
 			dispatcher.forward(request, response);

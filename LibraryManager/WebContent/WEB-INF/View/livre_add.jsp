@@ -19,35 +19,41 @@
         <a href="#" data-activates="slide-out" class="button-collapse valign hide-on-large-only"><i class="material-icons">menu</i></a>
         <h1 class="page-announce-text valign">Fiche livre</h1>
       </div>
+
+      <c:if test="${! empty errorMessage}">
+        <div>
+          <p align="center"><c:out value="${errorMessage}"/></p>
+        </div>
+      </c:if>
+
       <div class="row">
-      <div class="container">
-      <h5>Création d'un nouveau livre</h5>
-        <div class="row">
-	      <form action="/LibraryManager/livre_add" method="post" class="col s12">
-	        <div class="row">
-	          <div class="input-field col m12 s12">
-	            <input id="titre" type="text" name="titre">
-	            <label for="titre">Titre</label>
-	          </div>
+        <div class="container">
+          <h5>Creation d'un nouveau livre</h5>
+          <div class="row">
+            <form action="/Projet-Ric-David/livre_add" method="post" class="col s12">
+              <div class="row">
+                <div class="input-field col m12 s12">
+                  <input id="titre" type="text" name="titre">
+                  <label for="titre">Titre</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s6">
+                  <input id="auteur" type="text" name="auteur">
+                  <label for="auteur">Auteur</label>
+                </div>
+                <div class="input-field col s6">
+                  <input id="isbn" type="text" name="isbn">
+                  <label for="isbn">ISBN 13</label>
+                </div>
+              </div>
+              <div class="row center">
+                <button class="btn waves-effect waves-light" type="submit">Enregistrer</button>
+                <button class="btn waves-effect waves-light orange" type="reset">Annuler</button>
+              </div>
+            </form>
 	        </div>
-	        <div class="row">
-	          <div class="input-field col s6">
-	            <input id="auteur" type="text" name="auteur">
-	            <label for="auteur">Auteur</label>
-	          </div>
-	          <div class="input-field col s6">
-	            <input id="isbn" type="text" name="isbn">
-	            <label for="isbn">ISBN 13</label>
-	          </div>
-	        </div>
-	        <div class="row center">
-	          <button class="btn waves-effect waves-light" type="submit">Enregistrer</button>
-	          <button class="btn waves-effect waves-light orange" type="reset">Annuler</button>
-	        </div>
-	      </form>
-	    </div>
-	    
-      </div>
+        </div>
       </div>
     </section>
   </main>

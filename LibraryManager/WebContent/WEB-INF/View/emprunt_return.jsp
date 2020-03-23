@@ -28,21 +28,21 @@
 	          <div class="input-field col s12">
 	            <select id="id" name="id" class="browser-default">
                 <c:choose>
-                  <c:when test="${(! empty id) && (! empty loanListJSP)}">
-                    <c:forEach var="loan" items="${loanListJSP}">
+                  <c:when test="${(not empty id) && (! empty lendingListJSP)}">
+                    <c:forEach var="loan" items="${lendingListJSP}">
                       <c:if test="${loan.getId() eq id}">
-                        <option value="<c:out value="${loan.getId()}"/>" selected>"<c:out value="${loan.getBook().getTitle()}"/>", emprunté par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
+                        <option value="<c:out value="${loan.getId()}"/>" selected>"<c:out value="${loan.getBook().getTitle()}"/>", emprunte par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
                       </c:if>
                     </c:forEach>
                   </c:when>
                   <c:otherwise>
-                    <option value="" default disabled selected>---</option>
+                    <option value="" disabled selected>---livre emprunte par membre---</option>
                   </c:otherwise>
                 </c:choose>
-                <c:if test="${! empty loanListJSP}">
-                  <c:forEach var="loan" items="${loanListJSP}">
-                      <c:if test="${(empty id) || (id eq loan.getId())}">
-                        <option value="<c:out value="${loan.getId()}"/>" selected>"<c:out value="${loan.getBook().getTitle()}"/>", emprunté par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
+                <c:if test="${! empty lendingListJSP}">
+                  <c:forEach var="loan" items="${lendingListJSP}">
+                      <c:if test="${(empty id) || (loan.getId() ne id)}">
+                        <option value="<c:out value="${loan.getId()}"/>">"<c:out value="${loan.getBook().getTitle()}"/>", emprunte par <c:out value="${loan.getMember().getName()}"/> <c:out value="${loan.getMember().getLastname()}"/></option>
                       </c:if>
                     </c:forEach>
                 </c:if>

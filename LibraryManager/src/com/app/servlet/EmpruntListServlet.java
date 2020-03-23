@@ -32,17 +32,17 @@ public class EmpruntListServlet extends HttpServlet {
 			try {
                 if (show.equals("current")) {
                     loanList = loanServiceImpl.getListCurrent();
-                    request.setAttribute("show", "all");
+                    //request.setAttribute("show", "all");
                 } else {
                     loanList = loanServiceImpl.getList();
-                    request.setAttribute("show", "current");
+                    //request.setAttribute("show", "current");
                 }
 			} catch (ServiceException e) {
 				System.out.println(e.getMessage());
 				e.printStackTrace();
 			}
 			
-			request.setAttribute("LendingListJSP", loanList);
+			request.setAttribute("lendingListJSP", loanList);
 
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
 			dispatcher.forward(request, response);

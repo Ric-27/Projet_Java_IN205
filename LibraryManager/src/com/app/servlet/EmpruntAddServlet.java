@@ -53,17 +53,16 @@ public class EmpruntAddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        LendingService loanService = LendingServiceImpl.getInstance();
+        LendingService lendingServiceImpl = LendingServiceImpl.getInstance();
         List<Lending> lendingList = new ArrayList<>();
-
         try {
             if (request.getParameter("idMembre") == null || request.getParameter("idLivre") == null)
                 throw new ServletException("Can't lend. Information Missing.");
             else {
-                loanService.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
-                lendingList = loanService.getListCurrent();
-                request.setAttribute("LendingListJSP", lendingList);
-                request.setAttribute("show", "current");
+                lendingServiceImpl.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
+                lendingList = lendingServiceImpl.getListCurrent();
+                request.setAttribute("lendingListJSP", lendingList);
+                //request.setAttribute("show", "current");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/emprunt_list.jsp");
                 dispatcher.forward(request, response);
             }

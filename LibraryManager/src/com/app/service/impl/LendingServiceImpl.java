@@ -90,7 +90,6 @@ public class LendingServiceImpl implements LendingService {
     public void create(int idMember, int idBook, LocalDate dateLending) throws ServiceException{
         LendingDao lendingDao = LendingDaoImpl.getInstance();
         try {
-            System.out.println("im in service");
             lendingDao.create(idMember, idBook, dateLending);
             
         } catch (DaoException e) {

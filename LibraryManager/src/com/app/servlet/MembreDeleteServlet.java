@@ -54,16 +54,22 @@ public class MembreDeleteServlet extends HttpServlet {
 		List<Member> memberList = new ArrayList<>();
 		
         try {
-            if (request.getParameter("memberId") == "")
-                throw se;
+            if (request.getParameter("memberId") == ""){
+
+				memberList = memberService.getList();
+
+				request.setAttribute("memberListJSP", memberList);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
+				dispatcher.forward(request, response);
+			}
             else {
 				memberService.delete(Integer.parseInt(request.getParameter("memberId")));
 			
 				// Get the list of the current members :
 				memberList = memberService.getList();
                 
-				request.setAttribute("memberList", memberList);
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_delete.jsp");
+				request.setAttribute("memberListJSP", memberList);
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
 				dispatcher.forward(request, response);
 			}
 		} catch (ServiceException e) {
@@ -81,9 +87,9 @@ public class MembreDeleteServlet extends HttpServlet {
 				serviceException.printStackTrace();
 			}
                 
-			request.setAttribute("memberList", memberList);
+			request.setAttribute("memberListJSP", memberList);
 			request.setAttribute("errorMessage", e.getMessage());
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_delete.jsp");
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_list.jsp");
 			dispatcher.forward(request, response);
 		}
 	}

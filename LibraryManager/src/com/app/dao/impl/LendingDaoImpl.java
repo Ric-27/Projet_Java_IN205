@@ -55,7 +55,6 @@ public class LendingDaoImpl implements LendingDao {
             {
                 
                 if (result.next()){
-                    System.out.println("im in the of dao");
                     MemberDao memberDao = MemberDaoImpl.getInstance();
                     BookDao bookDao = BookDaoImpl.getInstance();
                     Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
@@ -68,6 +67,8 @@ public class LendingDaoImpl implements LendingDao {
     }
 
     public void updateStatementFunction(PreparedStatement preparedStatement, Lending lending) throws SQLException{
+
+        preparedStatement.setInt(1, lending.getMember().getId());
         preparedStatement.setInt(2, lending.getBook().getId());
         preparedStatement.setDate(3, Date.valueOf(lending.getLendDate()));
         if (lending.getReturnDate() != null)
@@ -86,7 +87,7 @@ public class LendingDaoImpl implements LendingDao {
             ){
                 updateStatementFunction(preparedStatement, lending);
             }catch(SQLException e){
-                throw new DaoException("Problems updating the loan :" + lending);
+                throw new DaoException("Dao: Problems updating the loan :" + lending);
             }
 
     }

@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 
+
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="com.app.model.Member" %>
 <%@ page import="com.app.model.Lending" %>
@@ -10,9 +11,11 @@ pageEncoding="UTF-8"%>
 <%@ page import="com.app.service.impl.*" %>
 <%@ page import="java.util.List" %>
 
-<%! private Member member = new Member();%>
-<%! private MemberService memberService = MemberServiceImpl.getInstance();%>
-<% member = memberService.getById((int) request.getAttribute("memberId"));%>
+<%if (request.getAttribute("memberId") != null && (int)request.getAttribute("memberId") != -1){
+  Member member = new Member();
+  MemberService memberService = MemberServiceImpl.getInstance();
+  member = memberService.getById((int) request.getAttribute("memberId"));
+}%>
 
 
 <!DOCTYPE html>

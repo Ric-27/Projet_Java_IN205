@@ -60,7 +60,6 @@ public class EmpruntAddServlet extends HttpServlet {
             if (request.getParameter("idMembre") == null || request.getParameter("idLivre") == null)
                 throw new ServletException("Can't lend. Information Missing.");
             else {
-                System.out.println("im in servlet");
                 loanService.create(Integer.parseInt(request.getParameter("idMembre")), Integer.parseInt(request.getParameter("idLivre")), LocalDate.now());
                 lendingList = loanService.getListCurrent();
                 request.setAttribute("LendingListJSP", lendingList);

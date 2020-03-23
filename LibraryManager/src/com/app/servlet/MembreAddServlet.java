@@ -38,7 +38,6 @@ public class MembreAddServlet extends HttpServlet {
 												request.getParameter("telephone"));
 
 			//Member member = memberService.getById(memberId);
-			System.out.println(memberId);
 			
 			request.setAttribute("memberId", memberId);
 			request.setAttribute("loanList", lendingService.getListCurrentByMember(memberId));

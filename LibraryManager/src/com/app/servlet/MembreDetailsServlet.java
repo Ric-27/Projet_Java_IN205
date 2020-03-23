@@ -56,16 +56,25 @@ public class MembreDetailsServlet extends HttpServlet {
 		LendingService loanService = LendingServiceImpl.getInstance();
 		
 		try {
-			memberService.update(new Member(Integer.parseInt(request.getParameter("id")),
-															request.getParameter("nom"),
-															request.getParameter("prenom"), 
-															request.getParameter("adresse"),
-															request.getParameter("email"), 
-															request.getParameter("telephone"), 
-															Member.Subscription.valueOf(request.getParameter("abonnement"))));
+			System.out.println(request.getParameter("memberId"));
+			System.out.println(request.getParameter("nom"));
+			System.out.println(request.getParameter("prenom"));
+			System.out.println(request.getParameter("adresse"));
+			System.out.println(request.getParameter("email"));
+			System.out.println(request.getParameter("telephone"));
+			System.out.println(request.getParameter("abonnement"));
+			Member member = new Member(Integer.parseInt(request.getParameter("memberId")),
+														request.getParameter("nom"),
+														request.getParameter("prenom"), 
+														request.getParameter("adresse"),
+														request.getParameter("email"), 
+														request.getParameter("telephone"), 
+														Member.Subscription.valueOf(request.getParameter("abonnement")));
 
-			request.setAttribute("loanList", loanService.getListCurrentByMember(Integer.parseInt(request.getParameter("id"))));
-			request.setAttribute("id", Integer.parseInt(request.getParameter("id")));
+			memberService.update(member);
+
+			request.setAttribute("loanList", loanService.getListCurrentByMember(Integer.parseInt(request.getParameter("memberId"))));
+			request.setAttribute("memberId", Integer.parseInt(request.getParameter("memberId")));
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_details.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {
@@ -73,13 +82,13 @@ public class MembreDetailsServlet extends HttpServlet {
 			e.printStackTrace();
 
 			try {
-				request.setAttribute("loanList", loanService.getListCurrentByMember(Integer.parseInt(request.getParameter("id"))));
+				request.setAttribute("loanList", loanService.getListCurrentByMember(Integer.parseInt(request.getParameter("memberId"))));
 			} catch (ServiceException serviceException) {
 				System.out.println(serviceException.getMessage());
 				serviceException.printStackTrace();
 			}
 			
-			request.setAttribute("id", Integer.parseInt(request.getParameter("id")));
+			request.setAttribute("memberId", Integer.parseInt(request.getParameter("memberId")));
 			request.setAttribute("errorMessage", e.getMessage());
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/View/membre_details.jsp");
 			dispatcher.forward(request, response);

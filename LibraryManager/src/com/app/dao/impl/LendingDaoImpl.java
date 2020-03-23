@@ -54,14 +54,12 @@ public class LendingDaoImpl implements LendingDao {
             ResultSet result = createStatementFunction(preparedStatement, idMembre,idLivre, dateLending);) 
             {
                 
-                System.out.println("im in dao");
                 if (result.next()){
                     System.out.println("im in the of dao");
                     MemberDao memberDao = MemberDaoImpl.getInstance();
                     BookDao bookDao = BookDaoImpl.getInstance();
                     Lending lending = new Lending(result.getInt("id"), memberDao.getById(idMembre), bookDao.getById(idLivre), dateLending, null);
 
-                    System.out.println("CREATE LOAN: " + lending);
                 }
 
         }catch(SQLException e){
@@ -103,7 +101,6 @@ public class LendingDaoImpl implements LendingDao {
                 MemberDao memberDao= MemberDaoImpl.getInstance();
                 BookDao bookDao = BookDaoImpl.getInstance();
                 
-                System.out.println("List of all the loans: " + lendings);
 
                 while(res.next()){
                     lendings.add(new Lending(res.getInt("id"),

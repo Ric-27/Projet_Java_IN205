@@ -97,7 +97,6 @@ public class MemberDaoImpl implements MemberDao {
             ResultSet result = prepareCreateStatement(preparedStatement, nom, prenom, adresse, email, telephone);) 
 		{
             if (result.next()) {
-				System.out.println("Im in the if of member dao create");
 				id = result.getInt("id");
 			}
         } catch (SQLException e) {

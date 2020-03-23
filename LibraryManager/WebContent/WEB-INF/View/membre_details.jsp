@@ -40,7 +40,7 @@
       <div class="container">
       <h5>Details du membre <c:out value="${memberId}"/></h5> <!-- TODO : remplacer 007 par l'id du membre -->
         <div class="row">
-	      <form action="/Projet-Ric-David/membre_details?memberId='<%= member.getId() %>'" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	      <form action="/Projet-Ric-David/membre_details?memberId=<%= member.getId() %>" method="post" class="col s12"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row">
 	          <div class="input-field col s4">
 	            <input id="nom" type="text" value='<%= member.getLastname() %>' name="nom"> <!-- TODO : remplacer nomDuMembre par le nom du membre -->
@@ -82,8 +82,8 @@
 	        </div>
 	      </form>
 	      
-	      <form action="/LibraryManager/membre_delete" method="get" class="col s12">
-	        <input type="hidden" value="idDuMembre" name="id"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	      <form action="/Projet-Ric-David/membre_delete?memberId=<%= member.getId() %>" method="get" class="col s12">
+	        <input type="hidden" value='<%= member.getId() %>'  name="memberId"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit">Supprimer le membre
 	            <i class="material-icons right">delete</i>
@@ -103,15 +103,6 @@
               </thead>
               <tbody id="results">
 
-                <c:forEach var="emprunt" items="${emprunts}">
-                <tr>
-                  <td>Pr�nom et nom du membre emprunteur</td>
-                  <td>Date de l'emprunt</td>
-                  <td>
-                    <a href="emprunt_return?id=idDeLEmprunt"><ion-icon class="table-item" name="log-in"></a>
-                  </td>
-                </tr>
-                </c:forEach>
 				<% if (!loanList.isEmpty()) {
 					for (Lending loan : loanList) { %>
 					  <tr>

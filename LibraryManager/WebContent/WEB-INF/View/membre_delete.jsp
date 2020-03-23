@@ -1,4 +1,20 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
+
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="com.app.model.Member" %>
+<%@ page import="com.app.model.Lending" %>
+<%@ page import="com.app.service.*" %>
+<%@ page import="com.app.service.impl.*" %>
+<%@ page import="java.util.List" %>
+
+<%! private Member member = new Member();%>
+<%! private MemberService memberService = MemberServiceImpl.getInstance();%>
+<% member = memberService.getById((int) request.getAttribute("memberId"));%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,16 +37,16 @@
       </div>
       <div class="row">
       <div class="container">
-      <h5>Suppression du membre n°312</h5> <!-- TODO : remplacer 312 par l'id du membre -->
+      <h5>Suppression du membre <c:out value="${memberId}"/>></h5> <!-- TODO : remplacer 312 par l'id du membre -->
         <div class="row">
-          <p>Êtes-vous sûr de vouloir supprimer la fiche de prenomDuMembre nomDuMembre ?</p> <!-- TODO : remplacer prenomDuMembre et nomDuMembre par les valeurs correspondantes -->
-	      <form action="/LibraryManager/membre_delete" method="post" class="col s12">
-            <input type="hidden" value="idDuMembre" name="id"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+          <p>Ãªtes-vous sÃ»r de vouloir supprimer la fiche de  <c:out value="${memberId}"/>?</p> <!-- TODO : remplacer prenomDuMembre et nomDuMembre par les valeurs correspondantes -->
+	      <form action="/Projet-Ric-David/membre_delete?memberId=${memberId}" method="post" class="col s12">
+            <input type="hidden" value=${memberId} name="memberId"> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        <div class="row center">
 	          <button class="btn waves-effect waves-light red" type="submit" name="action">Supprimer
 	            <i class="material-icons right">delete</i>
 	          </button>
-	          <a class="btn waves-effect waves-light orange" href="/LibraryManager/membre_details?id=idDuMembre">Annuler</a> <!-- TODO : remplacer idDuMembre par l'id du membre -->
+	          <a class="btn waves-effect waves-light orange" href="/Projet-Ric-David/membre_details?memberId=${memberId}">Annuler</a> <!-- TODO : remplacer idDuMembre par l'id du membre -->
 	        </div>
 	      </form>
 	    </div>	    
